@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, count));
         recyclerView.setAdapter(new PlayerRecyclerAdapter(this, count));
+        recyclerView.setItemAnimator(null);
 
         setContentView(recyclerView, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
