@@ -89,6 +89,9 @@ class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.V
 
     private void showChangeTotalDialog(int pos) {
         NumberPicker lifePicker = new NumberPicker(context);
+        lifePicker.setMaxValue(999);
+        lifePicker.setValue(20);
+        lifePicker.setMinValue(0);
 
         NumberPicker poisonPicker = new NumberPicker(context);
         poisonPicker.setMaxValue(10);
