@@ -1,9 +1,10 @@
 package core.legion.mtglife;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,23 +21,28 @@ import java.util.Locale;
 
 class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.VH> {
 
-    private Context context;
+    private Activity activity;
     private Player[] players;
 
-    PlayerRecyclerAdapter(Context context, int count) {
-        this.context = context;
-        players = new Player[count];
-        for (int i = 0; i < players.length; i++) players[i] = new Player();
+    PlayerRecyclerAdapter(Activity activity) {
+        this.activity = activity;
+        players = new Player[0];
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
     }
 
     class VH extends RecyclerView.ViewHolder {
 
+        final ImageView backgroungImage;
         final ImageView btnIncreaseLife, btnDecreaseLife;
         final ImageView btnIncreasePoison, btnDecreasePoison;
         final TextView txtLife;
 
         VH(View itemView) {
             super(itemView);
+
+            backgroungImage = (ImageView) itemView.findViewById(R.id.background_img);
 
             btnIncreaseLife = (ImageView) itemView.findViewById(R.id.btn_increase_life);
             btnDecreaseLife = (ImageView) itemView.findViewById(R.id.btn_decrease_life);
@@ -68,18 +74,25 @@ class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.V
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        FrameLayout rootLayout = new FrameLayout(parent.getContext());
+        rootLayout.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER));
+
         return new VH(LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.player_item, new FrameLayout(parent.getContext())));
+                .inflate(R.layout.player_item, rootLayout));
     }
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        holder.backgroungImage.setImageResource(players[position].getBackgroundRes());
+
         holder.txtLife.setText(
                 String.format(Locale.getDefault(), "%d/%d",
                         players[position].getLifeTotal(),
-                        players[position].getPoisonCounters())
-        );
+                        players[position].getPoisonCounters()));
     }
 
     @Override
@@ -88,17 +101,17 @@ class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.V
     }
 
     private void showChangeTotalDialog(int pos) {
-        NumberPicker lifePicker = new NumberPicker(context);
+        NumberPicker lifePicker = new NumberPicker(activity);
         lifePicker.setMaxValue(999);
         lifePicker.setValue(20);
         lifePicker.setMinValue(0);
 
-        NumberPicker poisonPicker = new NumberPicker(context);
+        NumberPicker poisonPicker = new NumberPicker(activity);
         poisonPicker.setMaxValue(10);
         poisonPicker.setValue(0);
         poisonPicker.setMinValue(0);
 
-        LinearLayout pickerLayout = new LinearLayout(context);
+        LinearLayout pickerLayout = new LinearLayout(activity);
         pickerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         pickerLayout.setOrientation(LinearLayout.HORIZONTAL);
         pickerLayout.setGravity(Gravity.CENTER);
@@ -106,21 +119,23 @@ class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.V
         pickerLayout.addView(poisonPicker);
 
         TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
 
-        Button btnConfirm = new Button(context);
+        Button btnConfirm = new Button(activity);
         btnConfirm.setBackgroundResource(typedValue.resourceId);
-        btnConfirm.setText("Done");
+        btnConfirm.setText(R.string.txt_done);
         btnConfirm.setTextColor(Color.BLACK);
 
-        LinearLayout rootLayout = new LinearLayout(context);
-        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayout rootLayout = new LinearLayout(activity);
+        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
         rootLayout.setOrientation(LinearLayout.VERTICAL);
         rootLayout.setGravity(Gravity.CENTER);
         rootLayout.addView(pickerLayout);
         rootLayout.addView(btnConfirm);
 
-        AlertDialog alertDialog = new AlertDialog.Builder(context)
+        AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(rootLayout)
                 .create();
 
@@ -134,9 +149,8 @@ class PlayerRecyclerAdapter extends RecyclerView.Adapter<PlayerRecyclerAdapter.V
         alertDialog.show();
     }
 
-    private String[] generateArray(int minValue, int maxValue) {
-        String[] array = new String[maxValue - minValue];
-        for (int i = 0, value = minValue; value < maxValue; i++, value++) array[i] = Integer.toString(value);
-        return array;
+    void updatePlayers(int count) {
+        players = new Player[count];
+        for (int i = 0; i < players.length; i++) players[i] = new Player();
     }
 }

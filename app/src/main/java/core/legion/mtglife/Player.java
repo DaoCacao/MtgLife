@@ -1,40 +1,48 @@
 package core.legion.mtglife;
 
-public class Player {
+class Player {
 
     private int lifeTotal;
     private int poisonCounters;
+    private int backgroundRes;
 
-    public Player() {
+    Player() {
         lifeTotal = 20;
         poisonCounters = 0;
+        backgroundRes = 0;
     }
 
-    public int getLifeTotal() {
+    int getLifeTotal() {
         return lifeTotal;
     }
-    public int getPoisonCounters() {
+    int getPoisonCounters() {
         return poisonCounters;
     }
+    int getBackgroundRes() {
+        return backgroundRes;
+    }
 
-    public void setLifeTotal(int lifeTotal) {
+    void setLifeTotal(int lifeTotal) {
         this.lifeTotal = lifeTotal;
     }
-    public void setPoisonCounters(int poisonCounters) {
+    void setPoisonCounters(int poisonCounters) {
         this.poisonCounters = poisonCounters;
     }
+    public void setBackgroundRes(int backgroundRes) {
+        this.backgroundRes = backgroundRes;
+    }
 
-    public void increaseLifeBy(int count) {
+    void increaseLifeBy(int count) {
         lifeTotal += count;
     }
-    public void decreaseLifeBy(int count) {
+    void decreaseLifeBy(int count) {
         lifeTotal -= count;
     }
 
-    public void increasePoisonCountBy(int count) {
+    void increasePoisonCountBy(int count) {
         poisonCounters += count;
     }
-    public void decreasePoisonCountBy(int count) {
+    void decreasePoisonCountBy(int count) {
         poisonCounters -= count;
     }
 }

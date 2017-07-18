@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MtgLife</string>
+    <string name="txt_count_of_players">Count of Players</string>
+    <string name="txt_roll_a_dice">Roll a Dice</string>
+    <string name="txt_flip_a_coin">Flip a Coin</string>
+    <string name="txt_done">Done</string>
+    <string name="txt_plain">Plain</string>
+    <string name="txt_island">Island</string>
+    <string name="txt_swamp">Swamp</string>
+    <string name="txt_mountain">Mountain</string>
+    <string name="txt_forest">Forest</string>
+    <string name="txt_default">Default</string>
 </resources>
