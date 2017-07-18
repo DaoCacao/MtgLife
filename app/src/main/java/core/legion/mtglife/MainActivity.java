@@ -1,22 +1,15 @@
 package core.legion.mtglife;
 
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,11 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
 import trikita.anvil.Anvil;
-import trikita.anvil.BaseDSL;
 import trikita.anvil.RenderableView;
 
 import static trikita.anvil.DSL.*;
-import static trikita.anvil.BaseDSL.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,18 +57,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(null);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        rootLayout.addView(backgroundImage, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        rootLayout.addView(recyclerView, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER));
-
-        setContentView(rootLayout, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        rootLayout.addView(backgroundImage, new FrameLayout.LayoutParams(MATCH, MATCH));
+        rootLayout.addView(recyclerView, new FrameLayout.LayoutParams(MATCH, WRAP, CENTER));
+        setContentView(rootLayout, new FrameLayout.LayoutParams(MATCH, MATCH));
     }
 
     @Override
@@ -117,31 +99,33 @@ public class MainActivity extends AppCompatActivity {
         getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
 
         Button btnConfirm = new Button(this);
-        btnConfirm.setBackgroundResource(typedValue.resourceId);
-        btnConfirm.setText(R.string.txt_done);
-        btnConfirm.setTextColor(Color.BLACK);
-        btnConfirm.setOnClickListener(v -> {
-            switch (playerCountPicker.getValue()) {
-                case 1:
-                    changePlayerCount(1, 1);
-                    break;
-                case 2:
-                    changePlayerCount(2, 2);
-                    break;
-                case 3:
-                    changePlayerCount(3, 3);
-                    break;
-                case 4:
-                    changePlayerCount(4, 2);
-                    break;
-            }
-            alertDialog.dismiss();
+        Anvil.mount(btnConfirm, () -> {
+            backgroundResource(typedValue.resourceId);
+            text(R.string.txt_done);
+            textColor(Color.BLACK);
+            onClick(v -> {
+                switch (playerCountPicker.getValue()) {
+                    case 1:
+                        changePlayerCount(1, 1);
+                        break;
+                    case 2:
+                        changePlayerCount(2, 2);
+                        break;
+                    case 3:
+                        changePlayerCount(3, 3);
+                        break;
+                    case 4:
+                        changePlayerCount(4, 2);
+                        break;
+                }
+                alertDialog.dismiss();
+            });
         });
 
         LinearLayout rootLayout = new LinearLayout(this);
-        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(MATCH, MATCH));
         rootLayout.setOrientation(LinearLayout.VERTICAL);
-        rootLayout.setGravity(Gravity.CENTER);
+        rootLayout.setGravity(CENTER);
         rootLayout.addView(playerCountPicker);
         rootLayout.addView(btnConfirm);
 
@@ -170,32 +154,26 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout(() -> {
                     size(MATCH, MATCH);
                     orientation(LinearLayout.VERTICAL);
-                    gravity(Gravity.CENTER);
+                    gravity(CENTER);
 
-                    createTextView(
-                            R.string.txt_plain,
-                            R.drawable.back_white,
-                            alertDialog);
-                    createTextView(
-                            R.string.txt_island,
-                            R.drawable.back_blue,
-                            alertDialog);
-                    createTextView(
-                            R.string.txt_swamp,
-                            R.drawable.back_black,
-                            alertDialog);
-                    createTextView(
-                            R.string.txt_mountain,
-                            R.drawable.back_red,
-                            alertDialog);
-                    createTextView(
-                            R.string.txt_forest,
-                            R.drawable.back_green,
-                            alertDialog);
-                    createTextView(
-                            R.string.txt_default,
-                            R.drawable.background_guilds,
-                            alertDialog);
+                    createTextView(R.string.txt_plain, R.drawable.back_white, alertDialog);
+                    createTextView(R.string.txt_island, R.drawable.back_blue, alertDialog);
+                    createTextView(R.string.txt_swamp, R.drawable.back_black, alertDialog);
+                    createTextView(R.string.txt_mountain, R.drawable.back_red, alertDialog);
+                    createTextView(R.string.txt_forest, R.drawable.back_green, alertDialog);
+
+                    createTextView(R.string.txt_default, R.drawable.background_guilds, alertDialog);
+
+//                    createTextView(R.string.txt_azorius, R.drawable.azorius, alertDialog);
+//                    createTextView(R.string.txt_dimir, R.drawable.dimir, alertDialog);
+//                    createTextView(R.string.txt_ragdos, R.drawable.ragdos, alertDialog);
+//                    createTextView(R.string.txt_gruul, R.drawable.gruul, alertDialog);
+//                    createTextView(R.string.txt_selesnya, R.drawable.selesnya, alertDialog);
+//                    createTextView(R.string.txt_simic, R.drawable.simic, alertDialog);
+//                    createTextView(R.string.txt_orshov, R.drawable.orzhov, alertDialog);
+//                    createTextView(R.string.txt_izzet, R.drawable.izzet, alertDialog);
+//                    createTextView(R.string.txt_golgari, R.drawable.golgari, alertDialog);
+//                    createTextView(R.string.txt_boros, R.drawable.boros, alertDialog);
                 });
             }
         });
@@ -204,11 +182,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void createTextView(int titleRes, int imgRes, AlertDialog alertDialog) {
         textView(() -> {
-            size(MATCH, WRAP);
-            gravity(Gravity.CENTER);
+            size(WRAP, WRAP);
+            gravity(CENTER);
             padding(dip(8));
             text(titleRes);
-            textSize(BaseDSL.sip(18));
+            textSize(sip(18));
             textColor(Color.BLACK);
             onClick(v -> {
                 backgroundImage.setImageResource(imgRes);

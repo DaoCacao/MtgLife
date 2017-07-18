@@ -9,5 +9,17 @@
     <string name="txt_swamp">Swamp</string>
     <string name="txt_mountain">Mountain</string>
     <string name="txt_forest">Forest</string>
+
     <string name="txt_default">Default</string>
+
+    <string name="txt_azorius">Azorius</string>
+    <string name="txt_dimir">Dimir</string>
+    <string name="txt_ragdos">Ragdos</string>
+    <string name="txt_gruul">Gruul</string>
+    <string name="txt_selesnya">Selesnya</string>
+    <string name="txt_simic">Simic</string>
+    <string name="txt_orshov">Orzhov</string>
+    <string name="txt_izzet">Izzet</string>
+    <string name="txt_golgari">Golgari</string>
+    <string name="txt_boros">Boros</string>
 </resources>
