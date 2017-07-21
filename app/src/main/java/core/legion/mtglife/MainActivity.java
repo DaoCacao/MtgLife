@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView backgroundImage;
 
     private GridLayoutManager gridLayoutManager;
-    private PlayerRecyclerAdapter adapter;
+    private PlayerAdapter adapter;
     private RecyclerView recyclerView;
 
     private BottomSheetDialog bottomSheetDialog;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         gridLayoutManager = new GridLayoutManager(this, columns);
 
-        adapter = new PlayerRecyclerAdapter(this);
+        adapter = new PlayerAdapter(this);
         adapter.updatePlayers(count);
 
         recyclerView = new RecyclerView(this);
