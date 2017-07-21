@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,11 +41,21 @@ public class MainActivity extends AppCompatActivity {
         columns = 2;
         count = 2;
 
+        bottomSheetDialog = new BottomSheetDialog(this) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.bottom_sheet_dialog);
+            }
+        };
+
         FrameLayout rootLayout = new FrameLayout(this);
 
         backgroundImage = new ImageView(this);
-        backgroundImage.setImageResource(R.drawable.background_guilds);
-        backgroundImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Anvil.mount(backgroundImage, () -> {
+            imageResource(R.drawable.background_guilds);
+            scaleType(ImageView.ScaleType.CENTER_CROP);
+        });
 
         gridLayoutManager = new GridLayoutManager(this, columns);
 
@@ -57,26 +68,30 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(null);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
+        ImageView btnSettings = new ImageView(this);
+        Anvil.mount(btnSettings, () -> {
+                padding(dip(16));
+                imageResource(R.drawable.ic_settings);
+                onClick(v -> bottomSheetDialog.show());
+        });
+
         rootLayout.addView(backgroundImage, new FrameLayout.LayoutParams(MATCH, MATCH));
         rootLayout.addView(recyclerView, new FrameLayout.LayoutParams(MATCH, WRAP, CENTER));
+        rootLayout.addView(btnSettings, new FrameLayout.LayoutParams(WRAP, WRAP, START));
         setContentView(rootLayout, new FrameLayout.LayoutParams(MATCH, MATCH));
     }
 
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
-        bottomSheetDialog = new BottomSheetDialog(this) {
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.bottom_sheet_dialog);
-            }
-        };
         bottomSheetDialog.show();
         return false;
     }
 
     public void onBottomSheetBtnClick(View view) {
         switch (view.getId()) {
+            case R.id.txt_reset:
+                changePlayerCount(count, columns);
+                break;
             case R.id.txt_player_count:
                 showPlayerCountPicker();
                 break;
@@ -163,17 +178,6 @@ public class MainActivity extends AppCompatActivity {
                     createTextView(R.string.txt_forest, R.drawable.back_green, alertDialog);
 
                     createTextView(R.string.txt_default, R.drawable.background_guilds, alertDialog);
-
-//                    createTextView(R.string.txt_azorius, R.drawable.azorius, alertDialog);
-//                    createTextView(R.string.txt_dimir, R.drawable.dimir, alertDialog);
-//                    createTextView(R.string.txt_ragdos, R.drawable.ragdos, alertDialog);
-//                    createTextView(R.string.txt_gruul, R.drawable.gruul, alertDialog);
-//                    createTextView(R.string.txt_selesnya, R.drawable.selesnya, alertDialog);
-//                    createTextView(R.string.txt_simic, R.drawable.simic, alertDialog);
-//                    createTextView(R.string.txt_orshov, R.drawable.orzhov, alertDialog);
-//                    createTextView(R.string.txt_izzet, R.drawable.izzet, alertDialog);
-//                    createTextView(R.string.txt_golgari, R.drawable.golgari, alertDialog);
-//                    createTextView(R.string.txt_boros, R.drawable.boros, alertDialog);
                 });
             }
         });
