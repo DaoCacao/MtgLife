@@ -6,12 +6,9 @@ class Player {
     private int poisonCounters;
     private int energyCounters;
 
-    private int backgroundRes;
-
     Player() {
         lifeCounters = 20;
         poisonCounters = 0;
-        backgroundRes = 0;
     }
 
     int getLifeCounters() {
@@ -52,15 +49,4 @@ class Player {
     void decreaseEnergyCountBy(int count) {
         energyCounters -= count;
     }
-
-    int getBackgroundRes() {
-        return backgroundRes;
-    }
-    void setBackgroundRes(int backgroundRes) {
-        this.backgroundRes = backgroundRes;
-    }
-
-
-
-
 }

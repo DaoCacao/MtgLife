@@ -1,150 +1,109 @@
 package core.legion.mtglife;
 
-import android.graphics.Color;
-import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
+import android.widget.Toast;
 
-import trikita.anvil.Anvil;
+import java.util.Random;
+
+import trikita.anvil.*;
 import trikita.anvil.RenderableView;
 
 import static trikita.anvil.DSL.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int k4, k6, k8, k10, k12, k20;
     private int columns, count;
 
-    private ImageView backgroundImage;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     private GridLayoutManager gridLayoutManager;
     private PlayerAdapter adapter;
     private RecyclerView recyclerView;
 
-    private BottomSheetDialog bottomSheetDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_layout);
 
-        columns = 2;
-        count = 2;
-
-        bottomSheetDialog = new BottomSheetDialog(this) {
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.bottom_sheet_dialog);
-            }
-        };
-
-        FrameLayout rootLayout = new FrameLayout(this);
-
-        backgroundImage = new ImageView(this);
-        Anvil.mount(backgroundImage, () -> {
-            imageResource(R.drawable.background_guilds);
-            scaleType(ImageView.ScaleType.CENTER_CROP);
-        });
-
-        gridLayoutManager = new GridLayoutManager(this, columns);
-
-        adapter = new PlayerAdapter(this);
-        adapter.updatePlayers(count);
-
-        recyclerView = new RecyclerView(this);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(null);
-        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
-        ImageView btnSettings = new ImageView(this);
-        Anvil.mount(btnSettings, () -> {
-                padding(dip(16));
-                imageResource(R.drawable.ic_settings);
-                onClick(v -> bottomSheetDialog.show());
-        });
-
-        rootLayout.addView(backgroundImage, new FrameLayout.LayoutParams(MATCH, MATCH));
-        rootLayout.addView(recyclerView, new FrameLayout.LayoutParams(MATCH, WRAP, CENTER));
-        rootLayout.addView(btnSettings, new FrameLayout.LayoutParams(WRAP, WRAP, START));
-        setContentView(rootLayout, new FrameLayout.LayoutParams(MATCH, MATCH));
+        initNavigationView();
+        initRecyclerView();
     }
 
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
-        bottomSheetDialog.show();
+        drawerLayout.openDrawer(START);
         return false;
     }
 
-    public void onBottomSheetBtnClick(View view) {
-        switch (view.getId()) {
-            case R.id.txt_reset:
-                changePlayerCount(count, columns);
-                break;
-            case R.id.txt_player_count:
-                showPlayerCountPicker();
-                break;
-            case R.id.txt_theme_change:
-                showThemeChangeDialog();
-                break;
-        }
-        bottomSheetDialog.dismiss();
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else super.onBackPressed();
     }
 
-    private void showPlayerCountPicker() {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+    private void initNavigationView() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NumberPicker playerCountPicker = new NumberPicker(this);
-        playerCountPicker.setMaxValue(4);
-        playerCountPicker.setValue(2);
-        playerCountPicker.setMinValue(1);
-
-        TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
-
-        Button btnConfirm = new Button(this);
-        Anvil.mount(btnConfirm, () -> {
-            backgroundResource(typedValue.resourceId);
-            text(R.string.txt_done);
-            textColor(Color.BLACK);
-            onClick(v -> {
-                switch (playerCountPicker.getValue()) {
-                    case 1:
-                        changePlayerCount(1, 1);
-                        break;
-                    case 2:
-                        changePlayerCount(2, 2);
-                        break;
-                    case 3:
-                        changePlayerCount(3, 3);
-                        break;
-                    case 4:
-                        changePlayerCount(4, 2);
-                        break;
-                }
-                alertDialog.dismiss();
-            });
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_reset:
+                    changePlayerCount(count, columns);
+                    break;
+                case R.id.menu_roll_dice:
+                    showRollDiceDialog();
+                    break;
+                case R.id.menu_flip_coin:
+                    showFlipCoinDialog();
+                    break;
+            }
+            drawerLayout.closeDrawer(START);
+            return true;
         });
+    }
 
-        LinearLayout rootLayout = new LinearLayout(this);
-        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(MATCH, MATCH));
-        rootLayout.setOrientation(LinearLayout.VERTICAL);
-        rootLayout.setGravity(CENTER);
-        rootLayout.addView(playerCountPicker);
-        rootLayout.addView(btnConfirm);
+    private void initRecyclerView() {
+        gridLayoutManager = new GridLayoutManager(this, 1);
+        adapter = new PlayerAdapter(this);
 
-        alertDialog.setView(rootLayout);
-        alertDialog.show();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setItemAnimator(null);
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        changePlayerCount(2, 2);
+    }
+
+    public void playerCountSwitcher(View v) {
+        switch (v.getId()) {
+            case R.id.btn_one_player:
+                changePlayerCount(1, 1);
+                break;
+            case R.id.btn_two_players:
+                changePlayerCount(2, 2);
+                break;
+            case R.id.btn_three_players:
+                changePlayerCount(3, 3);
+                break;
+            case R.id.btn_four_players:
+                changePlayerCount(4, 2);
+                break;
+        }
+        drawerLayout.closeDrawer(START);
     }
 
     private void changePlayerCount(int newCount, int newColumns) {
@@ -160,41 +119,69 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void showThemeChangeDialog() {
+    private void showRollDiceDialog() {
+        shuffle();
+
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setView(new RenderableView(this) {
             @Override
             public void view() {
                 linearLayout(() -> {
-                    size(MATCH, MATCH);
                     orientation(LinearLayout.VERTICAL);
-                    gravity(CENTER);
 
-                    createTextView(R.string.txt_plain, R.drawable.back_white, alertDialog);
-                    createTextView(R.string.txt_island, R.drawable.back_blue, alertDialog);
-                    createTextView(R.string.txt_swamp, R.drawable.back_black, alertDialog);
-                    createTextView(R.string.txt_mountain, R.drawable.back_red, alertDialog);
-                    createTextView(R.string.txt_forest, R.drawable.back_green, alertDialog);
+                    linearLayout(() -> {
+                        orientation(LinearLayout.HORIZONTAL);
+                        gravity(CENTER);
+                        padding(dip(8));
 
-                    createTextView(R.string.txt_default, R.drawable.background_guilds, alertDialog);
+                        initDice(4, k4);
+                        initDice(6, k6);
+                        initDice(8, k8);
+                        initDice(10, k10);
+                        initDice(12, k12);
+                        initDice(20, k20);
+                    });
+
+                    linearLayout(() -> {
+                        orientation(LinearLayout.HORIZONTAL);
+
+                        initButton("SHUFFLE", v -> shuffle());
+                        initButton("OK!", v -> alertDialog.dismiss());
+                    });
                 });
             }
         });
         alertDialog.show();
     }
 
-    private void createTextView(int titleRes, int imgRes, AlertDialog alertDialog) {
-        textView(() -> {
-            size(WRAP, WRAP);
-            gravity(CENTER);
-            padding(dip(8));
-            text(titleRes);
-            textSize(sip(18));
-            textColor(Color.BLACK);
-            onClick(v -> {
-                backgroundImage.setImageResource(imgRes);
-                alertDialog.dismiss();
-            });
+    private void shuffle() {
+        k4 = new Random().nextInt(4) + 1;
+        k6 = new Random().nextInt(6) + 1;
+        k8 = new Random().nextInt(8) + 1;
+        k10 = new Random().nextInt(10) + 1;
+        k12 = new Random().nextInt(12) + 1;
+        k20 = new Random().nextInt(20) + 1;
+    }
+
+    private void initDice(int edges, int value) {
+        imageView(() -> {
+            padding(dip(4));
+            imageBitmap(DiceUtils.drawDice(edges, value));
+            Anvil.currentView().animate().rotation(360).setDuration(300);
         });
+    }
+
+    private void initButton(String text, View.OnClickListener onClick) {
+        button(() -> {
+            size(WRAP, WRAP);
+            weight(0.5f);
+            backgroundColor(0);
+            text(text);
+            onClick(onClick);
+        });
+    }
+
+    private void showFlipCoinDialog() {
+        Toast.makeText(this, "to be continued", Toast.LENGTH_SHORT).show();
     }
 }

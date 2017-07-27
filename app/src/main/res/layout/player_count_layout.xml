@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+        <RadioButton
+            android:id="@+id/btn_one_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/btn_count_1_selectable"
+            android:onClick="playerCountSwitcher" />
+
+        <RadioButton
+            android:id="@+id/btn_two_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/btn_count_2_selectable"
+            android:checked="true"
+            android:onClick="playerCountSwitcher" />
+
+        <RadioButton
+            android:id="@+id/btn_three_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/btn_count_3_selectable"
+            android:onClick="playerCountSwitcher" />
+
+        <RadioButton
+            android:id="@+id/btn_four_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/btn_count_4_selectable"
+            android:onClick="playerCountSwitcher" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBlack" />
+</LinearLayout>

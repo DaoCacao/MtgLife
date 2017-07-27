@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
@@ -26,14 +24,9 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
     PlayerAdapter(Activity activity) {
         this.activity = activity;
         players = new Player[0];
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
     }
 
     class VH extends RecyclerView.ViewHolder {
-
-        final ImageView backgroundImage;
 
         final TextView txtLifeTotal;
         final ImageView btnIncreaseLife, btnDecreaseLife;
@@ -41,24 +34,23 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
         final TextView txtPoisonTotal;
         final ImageView btnIncreasePoison, btnDecreasePoison;
 
-//        final TextView txtEnergyTotal;
-//        final ImageView btnIncreaseEnergy, btnDecreaseEnergy;
+        final TextView txtEnergyTotal;
+        final ImageView btnIncreaseEnergy, btnDecreaseEnergy;
 
         VH(View itemView) {
             super(itemView);
 
-            backgroundImage = (ImageView) itemView.findViewById(R.id.background_img);
 
             btnIncreaseLife = (ImageView) itemView.findViewById(R.id.btn_increase_life);
             btnDecreaseLife = (ImageView) itemView.findViewById(R.id.btn_decrease_life);
             btnIncreasePoison = (ImageView) itemView.findViewById(R.id.btn_increase_poison);
             btnDecreasePoison = (ImageView) itemView.findViewById(R.id.btn_decrease_poison);
-//            btnIncreaseEnergy = (ImageView) itemView.findViewById(R.id.btn_increase_energy);
-//            btnDecreaseEnergy = (ImageView) itemView.findViewById(R.id.btn_decrease_energy);
+            btnIncreaseEnergy = (ImageView) itemView.findViewById(R.id.btn_increase_energy);
+            btnDecreaseEnergy = (ImageView) itemView.findViewById(R.id.btn_decrease_energy);
 
             txtLifeTotal = (TextView) itemView.findViewById(R.id.txt_life_total);
             txtPoisonTotal = (TextView) itemView.findViewById(R.id.txt_poison_total);
-//            txtEnergyTotal = (TextView) itemView.findViewById(R.id.txt_energy_total);
+            txtEnergyTotal = (TextView) itemView.findViewById(R.id.txt_energy_total);
 
             btnIncreaseLife.setOnClickListener(v -> {
                 players[getAdapterPosition()].increaseLifeBy(1);
@@ -78,19 +70,19 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
                 notifyItemChanged(getAdapterPosition());
             });
 
-//            btnIncreaseEnergy.setOnClickListener(v -> {
-//                players[getAdapterPosition()].increaseEnergyCountBy(1);
-//                notifyItemChanged(getAdapterPosition());
-//            });
-//            btnDecreaseEnergy.setOnClickListener(v -> {
-//                players[getAdapterPosition()].decreaseEnergyCountBy(1);
-//                notifyItemChanged(getAdapterPosition());
-//            });
+            btnIncreaseEnergy.setOnClickListener(v -> {
+                players[getAdapterPosition()].increaseEnergyCountBy(1);
+                notifyItemChanged(getAdapterPosition());
+            });
+            btnDecreaseEnergy.setOnClickListener(v -> {
+                players[getAdapterPosition()].decreaseEnergyCountBy(1);
+                notifyItemChanged(getAdapterPosition());
+            });
 
             View.OnClickListener onTotalClick = v -> showChangeTotalDialog(getAdapterPosition());
             txtLifeTotal.setOnClickListener(onTotalClick);
             txtPoisonTotal.setOnClickListener(onTotalClick);
-//            txtEnergyTotal.setOnClickListener(onTotalClick);
+            txtEnergyTotal.setOnClickListener(onTotalClick);
         }
     }
 
@@ -99,21 +91,18 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
         FrameLayout rootLayout = new FrameLayout(parent.getContext());
         rootLayout.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER));
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         return new VH(LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.player_item, rootLayout));
+                .inflate(R.layout.planeswalker_item, rootLayout));
     }
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        holder.backgroundImage.setImageResource(players[position].getBackgroundRes());
-
         holder.txtLifeTotal.setText(String.valueOf(players[position].getLifeCounters()));
         holder.txtPoisonTotal.setText(String.valueOf(players[position].getPoisonCounters()));
-//        holder.txtEnergyTotal.setText(String.valueOf(players[position].getEnergyCounters()));
+        holder.txtEnergyTotal.setText(String.valueOf(players[position].getEnergyCounters()));
     }
 
     @Override
@@ -149,12 +138,12 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
         poisonPicker.setMinValue(0);
         pickerLayout.addView(poisonPicker);
 
-//        int currentEnergy = players[pos].getEnergyCounters();
-//        NumberPicker energyPicker = new NumberPicker(activity);
-//        energyPicker.setMaxValue(999);
-//        energyPicker.setValue(currentEnergy);
-//        energyPicker.setMinValue(0);
-//        pickerLayout.addView(energyPicker);
+        int currentEnergy = players[pos].getEnergyCounters();
+        NumberPicker energyPicker = new NumberPicker(activity);
+        energyPicker.setMaxValue(999);
+        energyPicker.setValue(currentEnergy);
+        energyPicker.setMinValue(0);
+        pickerLayout.addView(energyPicker);
 
         TypedValue typedValue = new TypedValue();
         activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
@@ -172,6 +161,7 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
         btnConfirm.setOnClickListener(v -> {
             players[pos].setLifeCounters(lifePicker.getValue());
             players[pos].setPoisonCounters(poisonPicker.getValue());
+            players[pos].setEnergyCounters(energyPicker.getValue());
             notifyItemChanged(pos);
             alertDialog.dismiss();
         });

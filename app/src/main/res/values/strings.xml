@@ -2,8 +2,6 @@
     <string name="app_name">MtgLife</string>
 
     <string name="txt_reset">Reset</string>
-    <string name="txt_count_of_players">Count of Players</string>
-    <string name="txt_change_main_theme">Change Theme</string>
     <string name="txt_roll_a_dice">Roll a Dice</string>
     <string name="txt_flip_a_coin">Flip a Coin</string>
 
@@ -16,14 +14,8 @@
     <string name="txt_forest">Forest</string>
     <string name="txt_default">Default</string>
 
-    <!--<string name="txt_azorius">Azorius</string>-->
-    <!--<string name="txt_dimir">Dimir</string>-->
-    <!--<string name="txt_ragdos">Ragdos</string>-->
-    <!--<string name="txt_gruul">Gruul</string>-->
-    <!--<string name="txt_selesnya">Selesnya</string>-->
-    <!--<string name="txt_simic">Simic</string>-->
-    <!--<string name="txt_orshov">Orzhov</string>-->
-    <!--<string name="txt_izzet">Izzet</string>-->
-    <!--<string name="txt_golgari">Golgari</string>-->
-    <!--<string name="txt_boros">Boros</string>-->
+    <string name="txt_one">one</string>
+    <string name="txt_two">two</string>
+    <string name="txt_three">three</string>
+    <string name="txt_four">four</string>
 </resources>
