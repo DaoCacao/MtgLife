@@ -1,4 +1,4 @@
-package core.legion.mtglife;
+package core.legion.mtglife.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,35 +11,44 @@ import android.graphics.Rect;
 import static trikita.anvil.BaseDSL.sip;
 import static trikita.anvil.BaseDSL.dip;
 
-class DiceUtils {
+public class DiceUtils {
 
-    private static Point[] getPoints(float cx, float cy, float spikes, float outRadius) {
-        Point[] points = new Point[(int) spikes];
-        float rot = (float) (Math.PI / 2 * 3);
-        int x;
-        int y;
-        float step = (float) (Math.PI / spikes);
+    public Bitmap drawDice(int edges, int value) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(dip(2));
+        paint.setTextSize(sip(12));
 
-        for (int i = 0; i < spikes; i++) {
-            x = (int) (cx + Math.cos(rot) * outRadius);
-            y = (int) (cy + Math.sin(rot) * outRadius);
-            points[i] = new Point(x, y);
-            rot += step;
-            rot += step;
+        Bitmap bitmap = Bitmap.createBitmap(dip(48), dip(48), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        switch (edges) {
+            case 4:
+                canvas.drawPath(drawK4(canvas), paint);
+                break;
+            case 6:
+                canvas.drawPath(drawK6(canvas), paint);
+                break;
+            case 8:
+                canvas.drawPath(drawK8(canvas), paint);
+                break;
+            case 10:
+                canvas.drawPath(drawK10(canvas), paint);
+                break;
+            case 12:
+                canvas.drawPath(drawK12(canvas), paint);
+                break;
+            case 20:
+                canvas.drawPath(drawK20(canvas), paint);
+                break;
         }
-        return points;
+
+        drawTextAtCenter(canvas, paint, String.valueOf(value));
+        return bitmap;
     }
 
-    private static void drawTextAtCenter(Canvas canvas, Paint paint, String text) {
-        Rect bounds = new Rect();
-        paint.setStrokeWidth(dip(1));
-        paint.getTextBounds(text, 0, text.length(), bounds);
-        int x = (int) (canvas.getWidth() / 2 - paint.measureText(text) / 2);
-        int y = (int) (canvas.getHeight() / 2 - (paint.descent() + paint.ascent()) / 2);
-        canvas.drawText(text, x, y, paint);
-    }
-
-    private static Path drawK4(Canvas canvas) {
+    private Path drawK4(Canvas canvas) {
         Point[] points = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 3, canvas.getHeight() / 2);
 
         Path path = new Path();
@@ -51,7 +60,7 @@ class DiceUtils {
         return path;
     }
 
-    private static Path drawK6(Canvas canvas) {
+    private Path drawK6(Canvas canvas) {
         Point[] points = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 4, canvas.getHeight() / 2);
 
         Path path = new Path();
@@ -64,7 +73,7 @@ class DiceUtils {
         return path;
     }
 
-    private static Path drawK8(Canvas canvas) {
+    private Path drawK8(Canvas canvas) {
         Point[] points = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 6, canvas.getHeight() / 2);
 
         Path path = new Path();
@@ -83,11 +92,11 @@ class DiceUtils {
         return path;
     }
 
-    private static Path drawK10(Canvas canvas) {
+    private Path drawK10(Canvas canvas) {
         return new Path();
     }
 
-    private static Path drawK12(Canvas canvas) {
+    private Path drawK12(Canvas canvas) {
         Point[] outPoints = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 10, canvas.getHeight() / 2);
         Point[] inPoints = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 5, canvas.getHeight() / 3);
 
@@ -129,7 +138,7 @@ class DiceUtils {
         return path;
     }
 
-    private static Path drawK20(Canvas canvas) {
+    private Path drawK20(Canvas canvas) {
         Point[] outPoints = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 6, canvas.getHeight() / 2);
         Point[] inPoints = getPoints(canvas.getWidth() / 2, canvas.getHeight() / 2, 3, canvas.getHeight() / 3);
 
@@ -168,39 +177,29 @@ class DiceUtils {
         return path;
     }
 
-    static Bitmap drawDice(int edges, int value) {
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(dip(2));
-        paint.setTextSize(sip(12));
+    private Point[] getPoints(float cx, float cy, float spikes, float outRadius) {
+        Point[] points = new Point[(int) spikes];
+        float rot = (float) (Math.PI / 2 * 3);
+        int x;
+        int y;
+        float step = (float) (Math.PI / spikes);
 
-        Bitmap bitmap = Bitmap.createBitmap(dip(48), dip(48), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-
-        switch (edges) {
-            case 4:
-                canvas.drawPath(drawK4(canvas), paint);
-                break;
-            case 6:
-                canvas.drawPath(drawK6(canvas), paint);
-
-                break;
-            case 8:
-                canvas.drawPath(drawK8(canvas), paint);
-                break;
-            case 10:
-                canvas.drawPath(drawK10(canvas), paint);
-                break;
-            case 12:
-                canvas.drawPath(drawK12(canvas), paint);
-                break;
-            case 20:
-                canvas.drawPath(drawK20(canvas), paint);
-                break;
+        for (int i = 0; i < spikes; i++) {
+            x = (int) (cx + Math.cos(rot) * outRadius);
+            y = (int) (cy + Math.sin(rot) * outRadius);
+            points[i] = new Point(x, y);
+            rot += step;
+            rot += step;
         }
+        return points;
+    }
 
-        drawTextAtCenter(canvas, paint, String.valueOf(value));
-        return bitmap;
+    private void drawTextAtCenter(Canvas canvas, Paint paint, String text) {
+        Rect bounds = new Rect();
+        paint.setStrokeWidth(dip(1));
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        int x = (int) (canvas.getWidth() / 2 - paint.measureText(text) / 2);
+        int y = (int) (canvas.getHeight() / 2 - (paint.descent() + paint.ascent()) / 2);
+        canvas.drawText(text, x, y, paint);
     }
 }

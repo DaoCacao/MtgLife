@@ -1,4 +1,4 @@
-package core.legion.mtglife;
+package core.legion.mtglife.ui;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import core.legion.mtglife.R;
+import core.legion.mtglife.models.Player;
 
 class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
 

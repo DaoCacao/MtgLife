@@ -1,52 +1,52 @@
-package core.legion.mtglife;
+package core.legion.mtglife.models;
 
-class Player {
+public class Player {
 
     private int lifeCounters;
     private int poisonCounters;
     private int energyCounters;
 
-    Player() {
+    public Player() {
         lifeCounters = 20;
         poisonCounters = 0;
     }
 
-    int getLifeCounters() {
+    public int getLifeCounters() {
         return lifeCounters;
     }
-    void setLifeCounters(int lifeCounters) {
+    public void setLifeCounters(int lifeCounters) {
         this.lifeCounters = lifeCounters;
     }
-    void increaseLifeBy(int count) {
+    public void increaseLifeBy(int count) {
         lifeCounters += count;
     }
-    void decreaseLifeBy(int count) {
+    public void decreaseLifeBy(int count) {
         lifeCounters -= count;
     }
 
-    int getPoisonCounters() {
+    public int getPoisonCounters() {
         return poisonCounters;
     }
-    void setPoisonCounters(int poisonCounters) {
+    public void setPoisonCounters(int poisonCounters) {
         this.poisonCounters = poisonCounters;
     }
-    void increasePoisonCountBy(int count) {
+    public void increasePoisonCountBy(int count) {
         poisonCounters += count;
     }
-    void decreasePoisonCountBy(int count) {
+    public void decreasePoisonCountBy(int count) {
         poisonCounters -= count;
     }
 
-    int getEnergyCounters() {
+    public int getEnergyCounters() {
         return energyCounters;
     }
-    void setEnergyCounters(int energyCounters) {
+    public void setEnergyCounters(int energyCounters) {
         this.energyCounters = energyCounters;
     }
-    void increaseEnergyCountBy(int count) {
+    public void increaseEnergyCountBy(int count) {
         energyCounters += count;
     }
-    void decreaseEnergyCountBy(int count) {
+    public void decreaseEnergyCountBy(int count) {
         energyCounters -= count;
     }
 }
