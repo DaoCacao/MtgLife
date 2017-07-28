@@ -1,5 +1,6 @@
 package core.legion.mtglife;
 
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +11,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import static trikita.anvil.DSL.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int k4, k6, k8, k10, k12, k20;
     private int columns, count;
 
     private DrawerLayout drawerLayout;
@@ -120,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRollDiceDialog() {
-        shuffle();
-
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setView(new RenderableView(this) {
             @Override
@@ -134,18 +130,22 @@ public class MainActivity extends AppCompatActivity {
                         gravity(CENTER);
                         padding(dip(8));
 
-                        initDice(4, k4);
-                        initDice(6, k6);
-                        initDice(8, k8);
-                        initDice(10, k10);
-                        initDice(12, k12);
-                        initDice(20, k20);
+                        initDice(4);
+                        initDice(6);
+                        initDice(8);
+//                        initDice(10);
+                        initDice(12);
+                        initDice(20);
                     });
 
                     linearLayout(() -> {
                         orientation(LinearLayout.HORIZONTAL);
 
-                        initButton("SHUFFLE", v -> shuffle());
+                        initButton("SHUFFLE", v -> {
+                            v.setEnabled(false);
+                            Anvil.render();
+                            new Handler().postDelayed(() -> v.setEnabled(true), 300);
+                        });
                         initButton("OK!", v -> alertDialog.dismiss());
                     });
                 });
@@ -154,20 +154,11 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void shuffle() {
-        k4 = new Random().nextInt(4) + 1;
-        k6 = new Random().nextInt(6) + 1;
-        k8 = new Random().nextInt(8) + 1;
-        k10 = new Random().nextInt(10) + 1;
-        k12 = new Random().nextInt(12) + 1;
-        k20 = new Random().nextInt(20) + 1;
-    }
-
-    private void initDice(int edges, int value) {
+    private void initDice(int edges) {
         imageView(() -> {
             padding(dip(4));
-            imageBitmap(DiceUtils.drawDice(edges, value));
-            Anvil.currentView().animate().rotation(360).setDuration(300);
+            imageBitmap(DiceUtils.drawDice(edges, new Random().nextInt(edges) + 1));
+            Anvil.currentView().animate().rotationBy(360).setDuration(300);
         });
     }
 

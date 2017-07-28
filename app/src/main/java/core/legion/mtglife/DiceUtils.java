@@ -9,7 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import static trikita.anvil.BaseDSL.sip;
-import static trikita.anvil.DSL.dip;
+import static trikita.anvil.BaseDSL.dip;
 
 class DiceUtils {
 
