@@ -3,12 +3,4 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#c62828</color>
-
-    <color name="colorWhite">#fff8e1</color>
-    <color name="colorBlack">#bdbdbd</color>
-    <color name="colorGreed">#a5d6a7</color>
-    <color name="colorRed">#ffab91</color>
-    <color name="colorBlue">#b3e5fc</color>
-
-    <color name="colorBlackTrans">#c8000000</color>
 </resources>

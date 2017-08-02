@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private int columns, count;
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
 
     private GridLayoutManager gridLayoutManager;
     private PlayerAdapter adapter;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_reset:

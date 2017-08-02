@@ -92,6 +92,7 @@ public class DiceUtils {
         return path;
     }
 
+    @SuppressWarnings("UnusedParameters")
     private Path drawK10(Canvas canvas) {
         return new Path();
     }

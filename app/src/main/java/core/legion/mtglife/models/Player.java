@@ -2,13 +2,23 @@ package core.legion.mtglife.models;
 
 public class Player {
 
+    private String name;
+
     private int lifeCounters;
     private int poisonCounters;
     private int energyCounters;
 
     public Player() {
+        name = "Planeswalker";
         lifeCounters = 20;
         poisonCounters = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getLifeCounters() {
@@ -17,11 +27,11 @@ public class Player {
     public void setLifeCounters(int lifeCounters) {
         this.lifeCounters = lifeCounters;
     }
-    public void increaseLifeBy(int count) {
-        lifeCounters += count;
+    public void increaseLifeCount() {
+        lifeCounters += 1;
     }
-    public void decreaseLifeBy(int count) {
-        lifeCounters -= count;
+    public void decreaseLifeCount() {
+        lifeCounters -= 1;
     }
 
     public int getPoisonCounters() {
@@ -30,11 +40,11 @@ public class Player {
     public void setPoisonCounters(int poisonCounters) {
         this.poisonCounters = poisonCounters;
     }
-    public void increasePoisonCountBy(int count) {
-        poisonCounters += count;
+    public void increasePoisonCount() {
+        poisonCounters += 1;
     }
-    public void decreasePoisonCountBy(int count) {
-        poisonCounters -= count;
+    public void decreasePoisonCount() {
+        poisonCounters -= 1;
     }
 
     public int getEnergyCounters() {
@@ -43,10 +53,10 @@ public class Player {
     public void setEnergyCounters(int energyCounters) {
         this.energyCounters = energyCounters;
     }
-    public void increaseEnergyCountBy(int count) {
-        energyCounters += count;
+    public void increaseEnergyCount() {
+        energyCounters += 1;
     }
-    public void decreaseEnergyCountBy(int count) {
-        energyCounters -= count;
+    public void decreaseEnergyCount() {
+        energyCounters -= 1;
     }
 }

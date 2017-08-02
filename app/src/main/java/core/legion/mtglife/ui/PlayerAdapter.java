@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +23,7 @@ import core.legion.mtglife.models.Player;
 
 class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
 
-    private Activity activity;
+    private final Activity activity;
     private Player[] players;
 
     PlayerAdapter(Activity activity) {
@@ -30,6 +32,8 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
     }
 
     class VH extends RecyclerView.ViewHolder {
+
+        final TextView txtName;
 
         final TextView txtLifeTotal;
         final ImageView btnIncreaseLife, btnDecreaseLife;
@@ -43,6 +47,7 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
         VH(View itemView) {
             super(itemView);
 
+            txtName = (TextView) itemView.findViewById(R.id.txt_name);
 
             btnIncreaseLife = (ImageView) itemView.findViewById(R.id.btn_increase_life);
             btnDecreaseLife = (ImageView) itemView.findViewById(R.id.btn_decrease_life);
@@ -55,30 +60,32 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
             txtPoisonTotal = (TextView) itemView.findViewById(R.id.txt_poison_total);
             txtEnergyTotal = (TextView) itemView.findViewById(R.id.txt_energy_total);
 
+            txtName.setOnClickListener(v -> showChangeNameDialog(getAdapterPosition()));
+
             btnIncreaseLife.setOnClickListener(v -> {
-                players[getAdapterPosition()].increaseLifeBy(1);
+                players[getAdapterPosition()].increaseLifeCount();
                 notifyItemChanged(getAdapterPosition());
             });
             btnDecreaseLife.setOnClickListener(v -> {
-                players[getAdapterPosition()].decreaseLifeBy(1);
+                players[getAdapterPosition()].decreaseLifeCount();
                 notifyItemChanged(getAdapterPosition());
             });
 
             btnIncreasePoison.setOnClickListener(v -> {
-                players[getAdapterPosition()].increasePoisonCountBy(1);
+                players[getAdapterPosition()].increasePoisonCount();
                 notifyItemChanged(getAdapterPosition());
             });
             btnDecreasePoison.setOnClickListener(v -> {
-                players[getAdapterPosition()].decreasePoisonCountBy(1);
+                players[getAdapterPosition()].decreasePoisonCount();
                 notifyItemChanged(getAdapterPosition());
             });
 
             btnIncreaseEnergy.setOnClickListener(v -> {
-                players[getAdapterPosition()].increaseEnergyCountBy(1);
+                players[getAdapterPosition()].increaseEnergyCount();
                 notifyItemChanged(getAdapterPosition());
             });
             btnDecreaseEnergy.setOnClickListener(v -> {
-                players[getAdapterPosition()].decreaseEnergyCountBy(1);
+                players[getAdapterPosition()].decreaseEnergyCount();
                 notifyItemChanged(getAdapterPosition());
             });
 
@@ -103,6 +110,8 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        holder.txtName.setText(players[position].getName());
+
         holder.txtLifeTotal.setText(String.valueOf(players[position].getLifeCounters()));
         holder.txtPoisonTotal.setText(String.valueOf(players[position].getPoisonCounters()));
         holder.txtEnergyTotal.setText(String.valueOf(players[position].getEnergyCounters()));
@@ -111,6 +120,41 @@ class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
     @Override
     public int getItemCount() {
         return players.length;
+    }
+
+    private void showChangeNameDialog(int pos) {
+        LinearLayout rootLayout = new LinearLayout(activity);
+        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
+        rootLayout.setGravity(Gravity.CENTER);
+
+        EditText edName = new EditText(activity);
+        edName.setGravity(Gravity.CENTER);
+        edName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        rootLayout.addView(edName);
+
+        TypedValue typedValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+
+        Button btnConfirm = new Button(activity);
+        btnConfirm.setBackgroundResource(typedValue.resourceId);
+        btnConfirm.setText(R.string.txt_done);
+        btnConfirm.setTextColor(Color.BLACK);
+        rootLayout.addView(btnConfirm);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .setView(rootLayout)
+                .create();
+
+        btnConfirm.setOnClickListener(v -> {
+            players[pos].setName(edName.getText().toString().trim());
+            notifyItemChanged(pos);
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
     }
 
     private void showChangeTotalDialog(int pos) {

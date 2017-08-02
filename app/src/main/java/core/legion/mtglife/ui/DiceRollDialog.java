@@ -31,7 +31,7 @@ import static trikita.anvil.DSL.text;
 
 class DiceRollDialog extends AlertDialog {
 
-    private DiceUtils diceUtils;
+    private final DiceUtils diceUtils;
 
     DiceRollDialog(@NonNull Context context) {
         super(context);
