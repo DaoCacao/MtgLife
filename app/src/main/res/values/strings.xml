@@ -4,7 +4,17 @@
     <string name="txt_reset">Reset</string>
     <string name="txt_roll_a_dice">Roll a Dice</string>
     <string name="txt_flip_a_coin">Flip a Coin</string>
+    <string name="txt_donation">Donate</string>
+
+    <string name="txt_rate_title">Hey, Bro!</string>
+    <string name="txt_rate_message">If you like this app, please rate it and leave a comment. This will help us to make it even better</string>
+    <string name="txt_rate_positive">Rate 5!</string>
+    <string name="txt_rate_negative">Later</string>
+    <string name="txt_rate_neutral">Already rated</string>
 
     <string name="txt_done">Done</string>
     <string name="txt_planeswalker">Planeswalker</string>
+
+    <string name="link_play_market">https://play.google.com/store/apps/details?id=core.legion.mtglife</string>
+
 </resources>

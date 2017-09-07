@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="donate_1">mtglife.donate.1</string>
+    <string name="donate_2">mtglife.donate.2</string>
+    <string name="donate_3">mtglife.donate.3</string>
+    <string name="donate_4">mtglife.donate.4</string>
+
+    <string name="license_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujo9s0nc3xLoZwjYF/YqcdY/6ZzvX0phMa0piOZ8DuKp2Eo8UMcMBAcddzCmvrk+v3fXtzC/3sDXfViz5ctHYMuYG1jtuFvJhJg6cb1lRLC2Ao5263TqOZkKBmY9WoIzBh3oEghnrpwWyzaW7+TjnxJ0dAtZtGQH1iXbcNlDS3+IdetlVPuUfDp5tOiSYbUOlABg3qikJYj2+DVEZZS7htVhkEUhmT64X/DHpI4peIfw5zEfHY8Qiaqzewu7nnfaLTddf1P62zef6gcYpDfpIIDviHJHnJvU7c8+DWCxqL7QHIkOma6Q11NCE6X3BDBFSl2erZPaAVWh+nPZk5ybTQIDAQAB</string>
+</resources>

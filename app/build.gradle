@@ -8,8 +8,8 @@ android {
         applicationId "core.legion.mtglife"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.5"
+        versionCode 10
+        versionName "1.9"
     }
 
     compileOptions {
@@ -29,5 +29,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.anjlab.android.iab.v3:library:1.0.44'
     compile 'co.trikita:anvil-sdk15:0.5.0'
 }
