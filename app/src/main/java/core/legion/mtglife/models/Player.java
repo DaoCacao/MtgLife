@@ -10,8 +10,7 @@ public class Player {
 
     public Player() {
         name = "Planeswalker";
-        lifeCounters = 20;
-        poisonCounters = 0;
+        reset();
     }
 
     public String getName() {
@@ -58,5 +57,11 @@ public class Player {
     }
     public void decreaseEnergyCount() {
         energyCounters -= 1;
+    }
+
+    public void reset() {
+        lifeCounters = 20;
+        poisonCounters = 0;
+        energyCounters = 0;
     }
 }

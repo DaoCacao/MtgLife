@@ -1,0 +1,246 @@
+package core.legion.mtglife.main_screen;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import core.legion.mtglife.R;
+import core.legion.mtglife.models.Player;
+import core.legion.mtglife.models.PlayerAdapter;
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class MainActivity extends DaggerAppCompatActivity implements MainMvp.View {
+
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    @Inject MainMvp.Presenter presenter;
+    @Inject GridLayoutManager gridLayoutManager;
+    @Inject PlayerAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_layout);
+        ButterKnife.bind(this);
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            presenter.onNavigationItemClick(item.getItemId());
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setItemAnimator(null);
+        recyclerView.setAdapter(adapter);
+
+        presenter.onViewInitialized();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onViewStopped();
+    }
+
+    @Override
+    public void navigateToRateScreen() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(getString(R.string.link_play_market)));
+        startActivity(intent);
+    }
+
+    @Override
+    public void showRateDialog() {
+        //TODO --> replace to module
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.txt_rate_title)
+                .setMessage(R.string.txt_rate_message)
+                .setPositiveButton(R.string.txt_rate_positive, (dialog, which) -> presenter.onRateDialogRateRClick())
+                .setNegativeButton(R.string.txt_rate_negative, (dialog, which) -> dialog.dismiss())
+                .setNeutralButton(R.string.txt_rate_neutral, (dialog, which) -> presenter.onRateDialogAlwaysRatedClick())
+                .show();
+    }
+
+    @Override
+    public void setPlayers(List<Player> players) {
+        adapter.setPlayers(players);
+    }
+
+    @Override
+    public void notifyAdapter() {
+        adapter.notifyDataSetChanged();
+    }
+
+//    private void showChangeNameDialog(int pos) {
+//        LinearLayout rootLayout = new LinearLayout(context);
+//        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+//        rootLayout.setOrientation(LinearLayout.VERTICAL);
+//        rootLayout.setGravity(Gravity.CENTER);
+//
+//        EditText edName = new EditText(context);
+//        edName.setGravity(Gravity.CENTER);
+//        edName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+//        rootLayout.addView(edName);
+//
+//        TypedValue typedValue = new TypedValue();
+//        context.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+//
+//        Button btnConfirm = new Button(context);
+//        btnConfirm.setBackgroundResource(typedValue.resourceId);
+//        btnConfirm.setText(R.string.txt_done);
+//        btnConfirm.setTextColor(Color.BLACK);
+//        rootLayout.addView(btnConfirm);
+//
+//        AlertDialog alertDialog = new AlertDialog.Builder(context)
+//                .setView(rootLayout)
+//                .create();
+//
+//        btnConfirm.setOnClickListener(v -> {
+//            players.get(pos).setName(edName.getText().toString().trim());
+//            notifyItemChanged(pos);
+//            alertDialog.dismiss();
+//        });
+//
+//        alertDialog.show();
+//    }
+//
+//    private void showChangeTotalDialog(int pos) {
+//        LinearLayout rootLayout = new LinearLayout(context);
+//        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+//        rootLayout.setOrientation(LinearLayout.VERTICAL);
+//        rootLayout.setGravity(Gravity.CENTER);
+//
+//        LinearLayout pickerLayout = new LinearLayout(context);
+//        pickerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        pickerLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        pickerLayout.setGravity(Gravity.CENTER);
+//        rootLayout.addView(pickerLayout);
+//
+//        int currentLife = players.get(pos).getLifeCounters();
+//        NumberPicker lifePicker = new NumberPicker(context);
+//        lifePicker.setMaxValue(999);
+//        lifePicker.setValue(currentLife);
+//        lifePicker.setMinValue(0);
+//        pickerLayout.addView(lifePicker);
+//
+//        int currentPoison = players.get(pos).getPoisonCounters();
+//        NumberPicker poisonPicker = new NumberPicker(context);
+//        poisonPicker.setMaxValue(10);
+//        poisonPicker.setValue(currentPoison);
+//        poisonPicker.setMinValue(0);
+//        pickerLayout.addView(poisonPicker);
+//
+//        int currentEnergy = players.get(pos).getEnergyCounters();
+//        NumberPicker energyPicker = new NumberPicker(context);
+//        energyPicker.setMaxValue(999);
+//        energyPicker.setValue(currentEnergy);
+//        energyPicker.setMinValue(0);
+//        pickerLayout.addView(energyPicker);
+//
+//        TypedValue typedValue = new TypedValue();
+//        context.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+//
+//        Button btnConfirm = new Button(context);
+//        btnConfirm.setBackgroundResource(typedValue.resourceId);
+//        btnConfirm.setText(R.string.txt_done);
+//        btnConfirm.setTextColor(Color.BLACK);
+//        rootLayout.addView(btnConfirm);
+//
+//        AlertDialog alertDialog = new AlertDialog.Builder(context)
+//                .setView(rootLayout)
+//                .create();
+//
+//        btnConfirm.setOnClickListener(v -> {
+//            players.get(pos).setLifeCounters(lifePicker.getValue());
+//            players.get(pos).setPoisonCounters(poisonPicker.getValue());
+//            players.get(pos).setEnergyCounters(energyPicker.getValue());
+//            notifyItemChanged(pos);
+//            alertDialog.dismiss();
+//        });
+//
+//        alertDialog.show();
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        else super.onBackPressed();
+//    }
+//
+//
+//    private void showPurchaseDialog() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Donate")
+//                .setIcon(R.drawable.ic_coin)
+//                .setItems(
+//                        new String[]{"Thank you!", "Good job!", "Great!", "Awesome!"},
+//                        (dialog, which) -> {
+//                            switch (which) {
+//                                case 0:
+//                                    billing.purchase(MainActivity.this, DONATE_1);
+//                                    break;
+//                                case 1:
+//                                    billing.purchase(MainActivity.this, DONATE_2);
+//                                    break;
+//                                case 2:
+//                                    billing.purchase(MainActivity.this, DONATE_3);
+//                                    break;
+//                                case 3:
+//                                    billing.purchase(MainActivity.this, DONATE_4);
+//                                    break;
+//                            }
+//                        })
+//                .show();
+//    }
+//
+//
+//    @Deprecated
+//    public void playerCountSwitcher(View v) {
+//        switch (v.getId()) {
+//            case R.id.btn_one_player:
+//                changePlayerCount(1, 1);
+//                break;
+//            case R.id.btn_two_players:
+//                changePlayerCount(2, 2);
+//                break;
+//            case R.id.btn_three_players:
+//                changePlayerCount(3, 3);
+//                break;
+//            case R.id.btn_four_players:
+//                changePlayerCount(4, 2);
+//                break;
+//        }
+//        drawerLayout.closeDrawer(START);
+//    }
+//
+//    @Deprecated
+//    private void showRollDiceDialog() {
+//        new DiceRollDialog(this).show();
+//    }
+//
+//    @Deprecated
+//    private void showFlipCoinDialog() {
+//        Toast.makeText(this, "to be continued", Toast.LENGTH_SHORT).show();
+//    }
+}
