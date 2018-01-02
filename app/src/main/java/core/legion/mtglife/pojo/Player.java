@@ -1,15 +1,20 @@
 package core.legion.mtglife.models;
 
+
+import android.graphics.Bitmap;
+
 public class Player {
 
     private String name;
+    private Bitmap background;
 
     private int lifeCounters;
     private int poisonCounters;
     private int energyCounters;
 
-    public Player() {
-        name = "Planeswalker";
+    public Player(String name, Bitmap background) {
+        this.name = name;
+        this.background = background;
         reset();
     }
 
@@ -20,6 +25,13 @@ public class Player {
         this.name = name;
     }
 
+    public Bitmap getBackground() {
+        return background;
+    }
+    public void setBackground(Bitmap background) {
+        this.background = background;
+    }
+
     public int getLifeCounters() {
         return lifeCounters;
     }
@@ -27,10 +39,10 @@ public class Player {
         this.lifeCounters = lifeCounters;
     }
     public void increaseLifeCount() {
-        lifeCounters += 1;
+        lifeCounters++;
     }
     public void decreaseLifeCount() {
-        lifeCounters -= 1;
+        lifeCounters--;
     }
 
     public int getPoisonCounters() {
@@ -40,10 +52,10 @@ public class Player {
         this.poisonCounters = poisonCounters;
     }
     public void increasePoisonCount() {
-        poisonCounters += 1;
+        poisonCounters++;
     }
     public void decreasePoisonCount() {
-        poisonCounters -= 1;
+        poisonCounters--;
     }
 
     public int getEnergyCounters() {
@@ -53,10 +65,10 @@ public class Player {
         this.energyCounters = energyCounters;
     }
     public void increaseEnergyCount() {
-        energyCounters += 1;
+        energyCounters++;
     }
     public void decreaseEnergyCount() {
-        energyCounters -= 1;
+        energyCounters--;
     }
 
     public void reset() {
