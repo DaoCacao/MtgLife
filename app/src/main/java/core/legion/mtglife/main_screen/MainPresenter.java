@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import core.legion.mtglife.R;
-import core.legion.mtglife.models.Player;
+import core.legion.mtglife.pojo.Player;
 import core.legion.mtglife.repository.Repository;
 
 public class MainPresenter implements MainMvp.Presenter {
@@ -57,10 +57,7 @@ public class MainPresenter implements MainMvp.Presenter {
             case R.id.menu_roll_dice:
 //                showRollDiceDialog();
                 break;
-            case R.id.menu_flip_coin:
-//                showFlipCoinDialog();
-                break;
-            case R.id.menu_purchase:
+            case R.id.menu_donate:
 //                showPurchaseDialog();
                 break;
         }

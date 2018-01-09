@@ -1,4 +1,4 @@
-package core.legion.mtglife.ui;
+package core.legion.mtglife.dices;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 
 import java.util.Random;
 
-import core.legion.mtglife.utils.DiceUtils;
 import trikita.anvil.Anvil;
 import trikita.anvil.RenderableView;
 

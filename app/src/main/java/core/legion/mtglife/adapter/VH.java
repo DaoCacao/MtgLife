@@ -1,7 +1,8 @@
-package core.legion.mtglife.models;
+package core.legion.mtglife.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -35,8 +36,8 @@ public class VH extends RecyclerView.ViewHolder {
 
     private OnPlayerChangeListener onPlayerChangeListener;
 
-    public VH(ViewGroup parent) {
-        super(LayoutInflater.from(parent.getContext()).inflate(R.layout.pw_player_item, parent, false));
+    public VH(View parent) {
+        super(parent);
         ButterKnife.bind(this, parent);
 
         int position = getAdapterPosition();

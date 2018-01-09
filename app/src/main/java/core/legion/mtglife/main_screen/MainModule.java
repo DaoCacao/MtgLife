@@ -3,7 +3,7 @@ package core.legion.mtglife.main_screen;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 
-import core.legion.mtglife.models.PlayerAdapter;
+import core.legion.mtglife.adapter.PlayerAdapter;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;

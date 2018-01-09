@@ -1,11 +1,13 @@
-package core.legion.mtglife.models;
+package core.legion.mtglife.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import core.legion.mtglife.R;
 import core.legion.mtglife.main_screen.OnPlayerChangeListener;
 import core.legion.mtglife.pojo.Player;
 
@@ -25,7 +27,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<VH> {
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        VH holder = new VH(parent);
+        //TODO--> replace to VH constructor
+        VH holder = new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.pw_player_item, parent, false));
         holder.setOnPlayerChangeListener(onPlayerChangeListener);
         return holder;
     }

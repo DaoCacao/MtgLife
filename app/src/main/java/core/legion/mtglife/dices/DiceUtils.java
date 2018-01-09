@@ -1,4 +1,4 @@
-package core.legion.mtglife.utils;
+package core.legion.mtglife.dices;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

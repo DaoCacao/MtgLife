@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import core.legion.mtglife.R;
-import core.legion.mtglife.models.PlayerAdapter;
+import core.legion.mtglife.adapter.PlayerAdapter;
 import core.legion.mtglife.pojo.Player;
 import dagger.android.support.DaggerAppCompatActivity;
 
