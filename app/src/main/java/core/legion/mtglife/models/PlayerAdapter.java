@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.legion.mtglife.main_screen.OnPlayerChangeListener;
+import core.legion.mtglife.pojo.Player;
 
 public class PlayerAdapter extends RecyclerView.Adapter<VH> {
 

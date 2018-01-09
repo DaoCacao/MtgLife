@@ -18,8 +18,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import core.legion.mtglife.R;
-import core.legion.mtglife.models.Player;
 import core.legion.mtglife.models.PlayerAdapter;
+import core.legion.mtglife.pojo.Player;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity implements MainMvp.View {
@@ -87,6 +87,58 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
         adapter.notifyDataSetChanged();
     }
 
+//    public void showChoosePlayerDialog(String[] names, Bitmap[] images) {
+//        AlertDialog planeswalkerDialog = new AlertDialog.Builder(this).create();
+//        planeswalkerDialog.setView(new RenderableView(this) {
+//            @Override
+//            public void view() {
+//                listView(() -> {
+//                    size(MATCH, MATCH);
+//                    divider(null);
+//                    dividerHeight(0);
+//                    adapter(new RenderableAdapter() {
+//                        @Override
+//                        public void view(int index) {
+//                            frameLayout(() -> {
+//                                size(MATCH, dip(80));
+//
+//                                imageView(() -> {
+//                                    size(MATCH, MATCH);
+//                                    scaleType(ImageView.ScaleType.CENTER_CROP);
+//                                    gravity(CENTER);
+//                                    imageBitmap(images[index]);
+//                                });
+//
+//                                textView(() -> {
+//                                    size(MATCH, MATCH);
+//                                    textSize(sip(32));
+//                                    textColor(Color.WHITE);
+//                                    gravity(CENTER);
+//                                    text(names[index]);
+//                                });
+//
+//                                onClick(v -> {
+//                                    mPresenter.onChooseDialogItemClick(adapter.getCurrentPos(), index);
+//                                    planeswalkerDialog.dismiss();
+//                                });
+//                            });
+//                        }
+//
+//                        @Override
+//                        public int getCount() {
+//                            return names.length;
+//                        }
+//
+//                        @Override
+//                        public Object getItem(int position) {
+//                            return null;
+//                        }
+//                    });
+//                });
+//            }
+//        });
+//        planeswalkerDialog.show();
+//    }
 //    private void showChangeNameDialog(int pos) {
 //        LinearLayout rootLayout = new LinearLayout(context);
 //        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(

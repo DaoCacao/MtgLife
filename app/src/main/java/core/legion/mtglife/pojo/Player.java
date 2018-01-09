@@ -1,4 +1,4 @@
-package core.legion.mtglife.models;
+package core.legion.mtglife.pojo;
 
 
 import android.graphics.Bitmap;
@@ -6,14 +6,16 @@ import android.graphics.Bitmap;
 public class Player {
 
     private String name;
+    private String type;
     private Bitmap background;
 
     private int lifeCounters;
     private int poisonCounters;
     private int energyCounters;
 
-    public Player(String name, Bitmap background) {
+    public Player(String name, String type, Bitmap background) {
         this.name = name;
+        this.type = type;
         this.background = background;
         reset();
     }
@@ -23,6 +25,13 @@ public class Player {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Bitmap getBackground() {

@@ -29,11 +29,11 @@ import static trikita.anvil.DSL.onClick;
 import static trikita.anvil.DSL.orientation;
 import static trikita.anvil.DSL.text;
 
-class DiceRollDialog extends AlertDialog {
+public class DiceRollDialog extends AlertDialog {
 
     private final DiceUtils diceUtils;
 
-    DiceRollDialog(@NonNull Context context) {
+    public DiceRollDialog(@NonNull Context context) {
         super(context);
 
         diceUtils = new DiceUtils();

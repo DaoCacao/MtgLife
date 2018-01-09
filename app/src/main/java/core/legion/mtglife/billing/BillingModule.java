@@ -10,12 +10,9 @@ import dagger.Provides;
 @Module
 public class BillingModule {
 
-    private String DONATE_1;    //R.string.donate_1
-    private String DONATE_2;    //R.string.donate_2
-    private String DONATE_3;    //R.string.donate_3
-    private String DONATE_4;    //R.string.donate_4
     private String LICENSE_KEY; //R.string.license_key
 
+    @Provides
     BillingProcessor.IBillingHandler billingHandler() {
         return new BillingHandler();
     }
@@ -23,5 +20,10 @@ public class BillingModule {
     @Provides
     BillingProcessor billingProcessor(Context context, BillingProcessor.IBillingHandler handler) {
         return new BillingProcessor(context, LICENSE_KEY, handler);
+    }
+
+    @Provides
+    IBilling billing(BillingProcessor processor) {
+        return new Billing(processor);
     }
 }

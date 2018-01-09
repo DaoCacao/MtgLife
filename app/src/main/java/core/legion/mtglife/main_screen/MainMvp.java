@@ -2,7 +2,8 @@ package core.legion.mtglife.main_screen;
 
 import java.util.List;
 
-import core.legion.mtglife.models.Player;
+import core.legion.mtglife.pojo.Player;
+
 
 public interface MainMvp {
 
