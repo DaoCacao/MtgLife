@@ -22,11 +22,6 @@ public class PreferenceModule {
     }
 
     @Provides
-    Gson gson() {
-        return new Gson();
-    }
-
-    @Provides
     SharedPreferences sharedPreferences(Context context) {
         return context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE);
     }

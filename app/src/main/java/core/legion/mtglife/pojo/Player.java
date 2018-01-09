@@ -13,7 +13,10 @@ public class Player {
     private int poisonCounters;
     private int energyCounters;
 
-    public Player() {
+    public Player(String name, String type, Bitmap background) {
+        this.name = name;
+        this.type = type;
+        this.background = background;
         reset();
     }
 

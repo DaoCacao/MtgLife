@@ -1,4 +1,4 @@
-package core.legion.mtglife.billing;
+package core.legion.mtglife.model.billing;
 
 import core.legion.mtglife.R;
 

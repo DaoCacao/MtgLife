@@ -2,6 +2,8 @@ package core.legion.mtglife.app;
 
 import android.content.Context;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,6 +16,7 @@ class AppModule {
     }
 
     @Provides
+    @Singleton
     Context context() {
         return context;
     }

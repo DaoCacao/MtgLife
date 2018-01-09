@@ -1,36 +1,32 @@
 package core.legion.mtglife.main_screen;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import core.legion.mtglife.R;
-import core.legion.mtglife.pojo.Player;
-import core.legion.mtglife.repository.Repository;
+import core.legion.mtglife.model.database.Database;
+import core.legion.mtglife.preferences.Preferences;
 
 public class MainPresenter implements MainMvp.Presenter {
 
-    private Repository repository;
     private MainMvp.View view;
-
-    private List<Player> players;
+    private Preferences preferences;
+    private Database database;
 
     @Inject
-    public MainPresenter(Repository repository, MainMvp.View view) {
-        this.repository = repository;
+    public MainPresenter(MainMvp.View view, Preferences preferences, Database database) {
         this.view = view;
+        this.preferences = preferences;
+        this.database = database;
     }
 
     private void checkIsRated() {
-        boolean isRated = repository.getPreferences().getIsRated();
+        boolean isRated = preferences.getIsRated();
         if (!isRated) {
             view.showRateDialog();
         }
     }
 
     private void initPlayers() {
-        players = repository.getPreferences().getPlayers();
-        view.setPlayers(players);
+        view.setPlayers(database.getPlayers());
         view.notifyAdapter();
     }
 
@@ -42,35 +38,33 @@ public class MainPresenter implements MainMvp.Presenter {
 
     @Override
     public void onViewStopped() {
-        repository.getPreferences().setPlayers(players);
+        database.savePlayers();
     }
 
     @Override
-    public void onNavigationItemClick(int id) {
-        switch (id) {
-            case R.id.menu_reset:
-                for (Player player : players) {
-                    player.reset();
-                }
-//                changePlayerCount(count, columns);
-                break;
-            case R.id.menu_roll_dice:
-//                showRollDiceDialog();
-                break;
-            case R.id.menu_donate:
-//                showPurchaseDialog();
-                break;
-        }
+    public void onResetClick() {
+        database.resetPlayers();
+        view.notifyAdapter();
     }
 
     @Override
-    public void onRateDialogRateRClick() {
+    public void onRollDiceClick() {
+
+    }
+
+    @Override
+    public void onDonateClick() {
+
+    }
+
+    @Override
+    public void onRateDialogRateClick() {
         view.navigateToRateScreen();
     }
 
     @Override
     public void onRateDialogAlwaysRatedClick() {
-        repository.getPreferences().setIsRated(true);
+        preferences.setIsRated(true);
     }
 
     @Override
@@ -84,37 +78,37 @@ public class MainPresenter implements MainMvp.Presenter {
 
     @Override
     public void onLifeIncreaseClick(int pos) {
-        players.get(pos).increaseLifeCount();
+        database.getPlayers().get(pos).increaseLifeCount();
         view.notifyAdapter();
     }
 
     @Override
     public void onLifeDecreaseClick(int pos) {
-        players.get(pos).decreaseLifeCount();
+        database.getPlayers().get(pos).decreaseLifeCount();
         view.notifyAdapter();
     }
 
     @Override
     public void onPoisonIncreaseClick(int pos) {
-        players.get(pos).increasePoisonCount();
+        database.getPlayers().get(pos).increasePoisonCount();
         view.notifyAdapter();
     }
 
     @Override
     public void onPoisonDecreaseClick(int pos) {
-        players.get(pos).decreasePoisonCount();
+        database.getPlayers().get(pos).decreasePoisonCount();
         view.notifyAdapter();
     }
 
     @Override
     public void onEnergyIncreaseClick(int pos) {
-        players.get(pos).increaseEnergyCount();
+        database.getPlayers().get(pos).increaseEnergyCount();
         view.notifyAdapter();
     }
 
     @Override
     public void onEnergyDecreaseClick(int pos) {
-        players.get(pos).decreaseEnergyCount();
+        database.getPlayers().get(pos).decreaseEnergyCount();
         view.notifyAdapter();
     }
 }

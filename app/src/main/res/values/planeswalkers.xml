@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="planeswalkers">
+        <item>Ajani Goldmane; Ajani</item>
+        <item>Arlinn Kord; Arlinn</item>
+        <item>Ashiok; Ashiok</item>
+        <item>Chandra Nalaar; Chandra</item>
+        <item>Dack Fayden; Dack</item>
+        <item>Daretti, Ingenious Iconoclast; Daretti</item>
+        <item>Domri Rade; Domri</item>
+        <item>Dovin Baan; Dovin</item>
+        <item>Elspeth Tirel; Elspeth</item>
+        <item>Freyalise; Freyalise</item>
+        <item>Garruk Wildspeaker; Garruk</item>
+        <item>Gideon Jura; Gideon</item>
+        <item>Jace Beleren; Jace</item>
+        <item>Karn; Karn</item>
+        <item>Kaya, Ghost Assassin; Kaya</item>
+        <item>Kiora; Kiora</item>
+        <item>Koth of the Hammer; Koth</item>
+        <item>Liliana Vess; Liliana</item>
+        <item>Nahiri; Nahiri</item>
+        <item>Narset; Narset</item>
+        <item>Nicol Bolas; Bolas</item>
+        <item>Nissa Revane; Nissa</item>
+        <item>Ob Nixilis; Nixilis</item>
+        <item>Ral Zarek; Ral</item>
+        <item>Saheeli Rai; Saheeli</item>
+        <item>Samut; Samut</item>
+        <item>Sarkhan Vol; Sarkhan</item>
+        <item>Sorin Markov; Sorin</item>
+        <item>Tamiyo; Tamiyo</item>
+        <item>Teferi; Teferi</item>
+        <item>Tezzeret; Tezzeret</item>
+        <item>Tibalt; Tibalt</item>
+        <item>Ugin, the Spirit Dragon; Ugin</item>
+        <item>Venser; Venser</item>
+        <item>Vraska; Vraska</item>
+        <item>Xenagos; Xenagos</item>
+    </array>
+</resources>

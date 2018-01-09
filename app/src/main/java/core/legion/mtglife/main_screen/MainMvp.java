@@ -2,6 +2,7 @@ package core.legion.mtglife.main_screen;
 
 import java.util.List;
 
+import core.legion.mtglife.main_screen.adapter.OnPlayerChangeListener;
 import core.legion.mtglife.pojo.Player;
 
 
@@ -20,10 +21,11 @@ public interface MainMvp {
         void onViewInitialized();
         void onViewStopped();
 
-        void onNavigationItemClick(int id);
+        void onResetClick();
+        void onRollDiceClick();
+        void onDonateClick();
 
-        void onRateDialogRateRClick();
+        void onRateDialogRateClick();
         void onRateDialogAlwaysRatedClick();
-
     }
 }

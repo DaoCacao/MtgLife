@@ -1,7 +1,6 @@
 package core.legion.mtglife.main_screen;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import core.legion.mtglife.R;
-import core.legion.mtglife.adapter.PlayerAdapter;
+import core.legion.mtglife.main_screen.adapter.PlayerAdapter;
 import core.legion.mtglife.pojo.Player;
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -31,6 +30,7 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     @Inject MainMvp.Presenter presenter;
     @Inject GridLayoutManager gridLayoutManager;
     @Inject PlayerAdapter adapter;
+    @Inject Intent rateScreenIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,17 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
         ButterKnife.bind(this);
 
         navigationView.setNavigationItemSelectedListener(item -> {
-            presenter.onNavigationItemClick(item.getItemId());
+            switch (item.getItemId()) {
+                case R.id.menu_reset:
+                    presenter.onResetClick();
+                    break;
+                case R.id.menu_roll_dice:
+                    presenter.onRollDiceClick();
+                    break;
+                case R.id.menu_donate:
+                    presenter.onDonateClick();
+                    break;
+            }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
@@ -60,9 +70,7 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
 
     @Override
     public void navigateToRateScreen() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(getString(R.string.link_play_market)));
-        startActivity(intent);
+        startActivity(rateScreenIntent);
     }
 
     @Override
@@ -71,7 +79,7 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
         new AlertDialog.Builder(this)
                 .setTitle(R.string.txt_rate_title)
                 .setMessage(R.string.txt_rate_message)
-                .setPositiveButton(R.string.txt_rate_positive, (dialog, which) -> presenter.onRateDialogRateRClick())
+                .setPositiveButton(R.string.txt_rate_positive, (dialog, which) -> presenter.onRateDialogRateClick())
                 .setNegativeButton(R.string.txt_rate_negative, (dialog, which) -> dialog.dismiss())
                 .setNeutralButton(R.string.txt_rate_neutral, (dialog, which) -> presenter.onRateDialogAlwaysRatedClick())
                 .show();

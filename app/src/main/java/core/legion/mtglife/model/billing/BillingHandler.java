@@ -1,4 +1,4 @@
-package core.legion.mtglife.billing;
+package core.legion.mtglife.model.billing;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package core.legion.mtglife.billing;
+package core.legion.mtglife.model.billing;
 
 import android.content.Context;
 
@@ -23,7 +23,7 @@ public class BillingModule {
     }
 
     @Provides
-    IBilling billing(BillingProcessor processor) {
-        return new Billing(processor);
+    Billing billing(BillingProcessor processor) {
+        return new AppBilling(processor);
     }
 }

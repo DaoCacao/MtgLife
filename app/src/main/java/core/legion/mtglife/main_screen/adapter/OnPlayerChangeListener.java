@@ -1,4 +1,4 @@
-package core.legion.mtglife.main_screen;
+package core.legion.mtglife.main_screen.adapter;
 
 public interface OnPlayerChangeListener {
     void onNameClick(int pos);
