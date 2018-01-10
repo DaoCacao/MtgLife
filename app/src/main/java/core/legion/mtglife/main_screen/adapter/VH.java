@@ -38,11 +38,11 @@ public class VH extends RecyclerView.ViewHolder {
         super(parent);
         ButterKnife.bind(this, parent);
 
-        frameType.setOnClickListener(v -> onPlayerChangeListener.onNameClick(getAdapterPosition()));
+        frameType.setOnClickListener(v -> onPlayerChangeListener.onNameClick());
 
-        txtLifeTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick(getAdapterPosition()));
-        txtPoisonTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick(getAdapterPosition()));
-        txtEnergyTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick(getAdapterPosition()));
+        txtLifeTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
+        txtPoisonTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
+        txtEnergyTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
 
         btnIncreaseLife.setOnClickListener(v -> onPlayerChangeListener.onLifeIncreaseClick(getAdapterPosition()));
         btnDecreaseLife.setOnClickListener(v -> onPlayerChangeListener.onLifeDecreaseClick(getAdapterPosition()));

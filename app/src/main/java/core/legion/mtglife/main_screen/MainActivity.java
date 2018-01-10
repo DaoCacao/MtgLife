@@ -1,5 +1,6 @@
 package core.legion.mtglife.main_screen;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,10 +14,12 @@ import android.view.View;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import core.legion.mtglife.R;
+import core.legion.mtglife.dices.DiceRollDialog;
 import core.legion.mtglife.main_screen.adapter.PlayerAdapter;
 import core.legion.mtglife.pojo.Player;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -30,7 +33,8 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     @Inject MainMvp.Presenter presenter;
     @Inject GridLayoutManager gridLayoutManager;
     @Inject PlayerAdapter adapter;
-    @Inject Intent rateScreenIntent;
+    @Inject @Named(IntentsHelper.TO_PLAYMARKET_SCREEN) Intent rateScreenIntent;
+    @Inject @Named(IntentsHelper.TO_PLAYER_SCREEN) Intent playerScreenIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,20 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     }
 
     @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else super.onBackPressed();
+    }
+
+    @Override
     public void navigateToRateScreen() {
         startActivity(rateScreenIntent);
+    }
+
+    @Override
+    public void navigateToPlayerScreen() {
+        startActivity(playerScreenIntent);
     }
 
     @Override
@@ -86,6 +102,24 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     }
 
     @Override
+    public void showRollDiceDialog() {
+        DiceRollDialog diceRollDialog = new DiceRollDialog(this);
+        diceRollDialog.show();
+    }
+
+    @Override
+    public void showPurchaseDialog() {
+        //TODO--> to dagger
+        new AlertDialog.Builder(this)
+                .setTitle("Donate")
+                .setIcon(R.drawable.ic_coin)
+                .setItems(
+                        new String[]{"Thank you!", "Good job!", "Great!", "Awesome!"},
+                        (dialog, which) -> presenter.onPurchaseClick(which))
+                .show();
+    }
+
+    @Override
     public void setPlayers(List<Player> players) {
         adapter.setPlayers(players);
     }
@@ -93,6 +127,11 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 
 //    public void showChoosePlayerDialog(String[] names, Bitmap[] images) {
@@ -241,38 +280,6 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
 //        alertDialog.show();
 //    }
 //
-//    @Override
-//    public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START))
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        else super.onBackPressed();
-//    }
-//
-//
-//    private void showPurchaseDialog() {
-//        new AlertDialog.Builder(this)
-//                .setTitle("Donate")
-//                .setIcon(R.drawable.ic_coin)
-//                .setItems(
-//                        new String[]{"Thank you!", "Good job!", "Great!", "Awesome!"},
-//                        (dialog, which) -> {
-//                            switch (which) {
-//                                case 0:
-//                                    billing.purchase(MainActivity.this, DONATE_1);
-//                                    break;
-//                                case 1:
-//                                    billing.purchase(MainActivity.this, DONATE_2);
-//                                    break;
-//                                case 2:
-//                                    billing.purchase(MainActivity.this, DONATE_3);
-//                                    break;
-//                                case 3:
-//                                    billing.purchase(MainActivity.this, DONATE_4);
-//                                    break;
-//                            }
-//                        })
-//                .show();
-//    }
 //
 //
 //    @Deprecated

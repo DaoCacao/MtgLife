@@ -4,26 +4,25 @@ import android.content.Context;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 
+import core.legion.mtglife.R;
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module(includes = BillingModule.Bindings.class)
 public class BillingModule {
 
-    private String LICENSE_KEY; //R.string.license_key
+    @Module
+    public interface Bindings {
+        @Binds
+        Billing billing(AppBilling billing);
 
-    @Provides
-    BillingProcessor.IBillingHandler billingHandler() {
-        return new BillingHandler();
+        @Binds
+        BillingProcessor.IBillingHandler billingHandler(BillingHandler billingHandler);
     }
 
     @Provides
     BillingProcessor billingProcessor(Context context, BillingProcessor.IBillingHandler handler) {
-        return new BillingProcessor(context, LICENSE_KEY, handler);
-    }
-
-    @Provides
-    Billing billing(BillingProcessor processor) {
-        return new AppBilling(processor);
+        return new BillingProcessor(context, context.getString(R.string.license_key), handler);
     }
 }

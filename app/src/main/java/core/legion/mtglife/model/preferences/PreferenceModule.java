@@ -1,9 +1,7 @@
-package core.legion.mtglife.preferences;
+package core.legion.mtglife.model.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.google.gson.Gson;
 
 import core.legion.mtglife.R;
 import dagger.Binds;

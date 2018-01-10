@@ -6,7 +6,13 @@ import android.support.annotation.Nullable;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 
+import javax.inject.Inject;
+
 public class BillingHandler implements BillingProcessor.IBillingHandler {
+
+    @Inject
+    public BillingHandler() {
+    }
 
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {

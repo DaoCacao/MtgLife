@@ -1,4 +1,4 @@
-package core.legion.mtglife.preferences;
+package core.legion.mtglife.model.preferences;
 
 import android.content.SharedPreferences;
 

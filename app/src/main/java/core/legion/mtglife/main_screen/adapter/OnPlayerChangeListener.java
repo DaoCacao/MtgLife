@@ -1,9 +1,8 @@
 package core.legion.mtglife.main_screen.adapter;
 
 public interface OnPlayerChangeListener {
-    void onNameClick(int pos);
-
-    void onTotalClick(int pos);
+    void onNameClick();
+    void onTotalClick();
 
     void onLifeIncreaseClick(int pos);
     void onLifeDecreaseClick(int pos);

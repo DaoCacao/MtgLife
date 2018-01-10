@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 
+import javax.inject.Named;
+
 import core.legion.mtglife.R;
-import core.legion.mtglife.app.scopes.ActivityScope;
-import core.legion.mtglife.main_screen.adapter.OnPlayerChangeListener;
 import core.legion.mtglife.main_screen.adapter.PlayerAdapter;
 import core.legion.mtglife.model.database.Database;
+import core.legion.mtglife.player_screen.PlayerActivity;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -37,9 +38,16 @@ public class MainModule {
     }
 
     @Provides
-    Intent intent(Context context) {
+    @Named(IntentsHelper.TO_PLAYMARKET_SCREEN)
+    Intent playMarketIntent(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(context.getString(R.string.link_play_market)));
         return intent;
+    }
+
+    @Provides
+    @Named(IntentsHelper.TO_PLAYER_SCREEN)
+    Intent playerIntent(Context context) {
+        return new Intent(context, PlayerActivity.class);
     }
 }
