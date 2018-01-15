@@ -1,8 +1,8 @@
 package core.legion.mtglife.main_screen.adapter;
 
-import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,12 +10,15 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import core.legion.mtglife.R;
+import core.legion.mtglife.base.BaseVH;
 import core.legion.mtglife.pojo.Player;
 
-public class VH extends RecyclerView.ViewHolder {
+public class CardFullVH extends BaseVH {
 
     @BindView(R.id.txt_type) TextView txtType;
 
+    @BindView(R.id.frame_name) FrameLayout frameName;
+    @BindView(R.id.frame_image) FrameLayout frameImage;
     @BindView(R.id.frame_type) FrameLayout frameType;
 
     @BindView(R.id.img_pw) ImageView imgPlaneswalker;
@@ -32,17 +35,13 @@ public class VH extends RecyclerView.ViewHolder {
     @BindView(R.id.btn_increase_energy) ImageView btnIncreaseEnergy;
     @BindView(R.id.btn_decrease_energy) ImageView btnDecreaseEnergy;
 
-    private OnPlayerChangeListener onPlayerChangeListener;
+    public CardFullVH(ViewGroup parent, OnPlayerChangeListener onPlayerChangeListener) {
+        super(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_full_item, parent, false));
+        ButterKnife.bind(this, itemView);
 
-    public VH(View parent) {
-        super(parent);
-        ButterKnife.bind(this, parent);
-
-        frameType.setOnClickListener(v -> onPlayerChangeListener.onNameClick());
-
-        txtLifeTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
-        txtPoisonTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
-        txtEnergyTotal.setOnClickListener(v -> onPlayerChangeListener.onTotalClick());
+        frameName.setOnClickListener(v -> onPlayerChangeListener.onNameClick(getAdapterPosition()));
+        frameImage.setOnClickListener(v -> onPlayerChangeListener.onNameClick(getAdapterPosition()));
+        frameType.setOnClickListener(v -> onPlayerChangeListener.onNameClick(getAdapterPosition()));
 
         btnIncreaseLife.setOnClickListener(v -> onPlayerChangeListener.onLifeIncreaseClick(getAdapterPosition()));
         btnDecreaseLife.setOnClickListener(v -> onPlayerChangeListener.onLifeDecreaseClick(getAdapterPosition()));
@@ -54,21 +53,17 @@ public class VH extends RecyclerView.ViewHolder {
         btnDecreaseEnergy.setOnClickListener(v -> onPlayerChangeListener.onEnergyDecreaseClick(getAdapterPosition()));
     }
 
-    public void onBind(Player player) {
-        String name = String.format("Planeswalker - %s", player.getType());
-        Bitmap image = player.getBackground();
+    public void bind(Player player) {
+        String type = String.format("Planeswalker - %s", player.getType());
+        Drawable image = player.getBackground();
         String life = String.valueOf(player.getLifeCounters());
         String poison = String.valueOf(player.getPoisonCounters());
         String energy = String.valueOf(player.getEnergyCounters());
 
-        txtType.setText(name);
-        imgPlaneswalker.setImageBitmap(image);
+        txtType.setText(type);
+        imgPlaneswalker.setImageDrawable(image);
         txtLifeTotal.setText(life);
         txtPoisonTotal.setText(poison);
         txtEnergyTotal.setText(energy);
-    }
-
-    public void setOnPlayerChangeListener(OnPlayerChangeListener onPlayerChangeListener) {
-        this.onPlayerChangeListener = onPlayerChangeListener;
     }
 }

@@ -1,23 +1,21 @@
 package core.legion.mtglife.main_screen.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.List;
 
-import core.legion.mtglife.R;
-import core.legion.mtglife.model.database.Database;
+import core.legion.mtglife.base.BaseVH;
 import core.legion.mtglife.pojo.Player;
 
-public class PlayerAdapter extends RecyclerView.Adapter<VH> {
+public class PlayerAdapter extends RecyclerView.Adapter<BaseVH> {
 
-    private List<Player> players;
     private OnPlayerChangeListener onPlayerChangeListener;
+    private List<Player> players;
 
-    public PlayerAdapter(OnPlayerChangeListener onPlayerChangeListener, Database database) {
+    public PlayerAdapter(OnPlayerChangeListener onPlayerChangeListener, List<Player> players) {
         this.onPlayerChangeListener = onPlayerChangeListener;
-        players = database.getPlayers();
+        this.players = players;
     }
 
     public void setPlayers(List<Player> players) {
@@ -25,16 +23,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<VH> {
     }
 
     @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        //TODO--> replace to VH constructor
-        VH holder = new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.planeswalker_item, parent, false));
-        holder.setOnPlayerChangeListener(onPlayerChangeListener);
-        return holder;
+    public BaseVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new CardVH(parent, onPlayerChangeListener);
     }
 
     @Override
-    public void onBindViewHolder(VH holder, int position) {
-        holder.onBind(players.get(position));
+    public void onBindViewHolder(BaseVH holder, int position) {
+        holder.bind(players.get(position));
     }
 
     @Override

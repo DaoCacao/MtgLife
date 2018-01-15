@@ -9,7 +9,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 import java.util.List;
 
@@ -23,6 +27,8 @@ import core.legion.mtglife.dices.DiceRollDialog;
 import core.legion.mtglife.main_screen.adapter.PlayerAdapter;
 import core.legion.mtglife.pojo.Player;
 import dagger.android.support.DaggerAppCompatActivity;
+
+import static android.view.Gravity.START;
 
 public class MainActivity extends DaggerAppCompatActivity implements MainMvp.View {
 
@@ -39,7 +45,7 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_layout);
+        setContentView(R.layout.main_screen_layout);
         ButterKnife.bind(this);
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -64,6 +70,12 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
         recyclerView.setAdapter(adapter);
 
         presenter.onViewInitialized();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onViewResume();
     }
 
     @Override
@@ -134,180 +146,21 @@ public class MainActivity extends DaggerAppCompatActivity implements MainMvp.Vie
         return this;
     }
 
-//    public void showChoosePlayerDialog(String[] names, Bitmap[] images) {
-//        AlertDialog planeswalkerDialog = new AlertDialog.Builder(this).create();
-//        planeswalkerDialog.setView(new RenderableView(this) {
-//            @Override
-//            public void view() {
-//                listView(() -> {
-//                    size(MATCH, MATCH);
-//                    divider(null);
-//                    dividerHeight(0);
-//                    adapter(new RenderableAdapter() {
-//                        @Override
-//                        public void view(int index) {
-//                            frameLayout(() -> {
-//                                size(MATCH, dip(80));
-//
-//                                imageView(() -> {
-//                                    size(MATCH, MATCH);
-//                                    scaleType(ImageView.ScaleType.CENTER_CROP);
-//                                    gravity(CENTER);
-//                                    imageBitmap(images[index]);
-//                                });
-//
-//                                textView(() -> {
-//                                    size(MATCH, MATCH);
-//                                    textSize(sip(32));
-//                                    textColor(Color.WHITE);
-//                                    gravity(CENTER);
-//                                    text(names[index]);
-//                                });
-//
-//                                onClick(v -> {
-//                                    mPresenter.onChooseDialogItemClick(adapter.getCurrentPos(), index);
-//                                    planeswalkerDialog.dismiss();
-//                                });
-//                            });
-//                        }
-//
-//                        @Override
-//                        public int getCount() {
-//                            return names.length;
-//                        }
-//
-//                        @Override
-//                        public Object getItem(int position) {
-//                            return null;
-//                        }
-//                    });
-//                });
-//            }
-//        });
-//        planeswalkerDialog.show();
-//    }
-//    private void showChangeNameDialog(int pos) {
-//        LinearLayout rootLayout = new LinearLayout(context);
-//        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
-//        rootLayout.setOrientation(LinearLayout.VERTICAL);
-//        rootLayout.setGravity(Gravity.CENTER);
-//
-//        EditText edName = new EditText(context);
-//        edName.setGravity(Gravity.CENTER);
-//        edName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-//        rootLayout.addView(edName);
-//
-//        TypedValue typedValue = new TypedValue();
-//        context.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
-//
-//        Button btnConfirm = new Button(context);
-//        btnConfirm.setBackgroundResource(typedValue.resourceId);
-//        btnConfirm.setText(R.string.txt_done);
-//        btnConfirm.setTextColor(Color.BLACK);
-//        rootLayout.addView(btnConfirm);
-//
-//        AlertDialog alertDialog = new AlertDialog.Builder(context)
-//                .setView(rootLayout)
-//                .create();
-//
-//        btnConfirm.setOnClickListener(v -> {
-//            players.get(pos).setName(edName.getText().toString().trim());
-//            notifyItemChanged(pos);
-//            alertDialog.dismiss();
-//        });
-//
-//        alertDialog.show();
-//    }
-//
-//    private void showChangeTotalDialog(int pos) {
-//        LinearLayout rootLayout = new LinearLayout(context);
-//        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
-//        rootLayout.setOrientation(LinearLayout.VERTICAL);
-//        rootLayout.setGravity(Gravity.CENTER);
-//
-//        LinearLayout pickerLayout = new LinearLayout(context);
-//        pickerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//        pickerLayout.setOrientation(LinearLayout.HORIZONTAL);
-//        pickerLayout.setGravity(Gravity.CENTER);
-//        rootLayout.addView(pickerLayout);
-//
-//        int currentLife = players.get(pos).getLifeCounters();
-//        NumberPicker lifePicker = new NumberPicker(context);
-//        lifePicker.setMaxValue(999);
-//        lifePicker.setValue(currentLife);
-//        lifePicker.setMinValue(0);
-//        pickerLayout.addView(lifePicker);
-//
-//        int currentPoison = players.get(pos).getPoisonCounters();
-//        NumberPicker poisonPicker = new NumberPicker(context);
-//        poisonPicker.setMaxValue(10);
-//        poisonPicker.setValue(currentPoison);
-//        poisonPicker.setMinValue(0);
-//        pickerLayout.addView(poisonPicker);
-//
-//        int currentEnergy = players.get(pos).getEnergyCounters();
-//        NumberPicker energyPicker = new NumberPicker(context);
-//        energyPicker.setMaxValue(999);
-//        energyPicker.setValue(currentEnergy);
-//        energyPicker.setMinValue(0);
-//        pickerLayout.addView(energyPicker);
-//
-//        TypedValue typedValue = new TypedValue();
-//        context.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
-//
-//        Button btnConfirm = new Button(context);
-//        btnConfirm.setBackgroundResource(typedValue.resourceId);
-//        btnConfirm.setText(R.string.txt_done);
-//        btnConfirm.setTextColor(Color.BLACK);
-//        rootLayout.addView(btnConfirm);
-//
-//        AlertDialog alertDialog = new AlertDialog.Builder(context)
-//                .setView(rootLayout)
-//                .create();
-//
-//        btnConfirm.setOnClickListener(v -> {
-//            players.get(pos).setLifeCounters(lifePicker.getValue());
-//            players.get(pos).setPoisonCounters(poisonPicker.getValue());
-//            players.get(pos).setEnergyCounters(energyPicker.getValue());
-//            notifyItemChanged(pos);
-//            alertDialog.dismiss();
-//        });
-//
-//        alertDialog.show();
-//    }
-//
-//
-//
-//    @Deprecated
-//    public void playerCountSwitcher(View v) {
-//        switch (v.getId()) {
-//            case R.id.btn_one_player:
-//                changePlayerCount(1, 1);
-//                break;
-//            case R.id.btn_two_players:
-//                changePlayerCount(2, 2);
-//                break;
-//            case R.id.btn_three_players:
-//                changePlayerCount(3, 3);
-//                break;
-//            case R.id.btn_four_players:
-//                changePlayerCount(4, 2);
-//                break;
-//        }
-//        drawerLayout.closeDrawer(START);
-//    }
-//
-//    @Deprecated
-//    private void showRollDiceDialog() {
-//        new DiceRollDialog(this).show();
-//    }
-//
-//    @Deprecated
-//    private void showFlipCoinDialog() {
-//        Toast.makeText(this, "to be continued", Toast.LENGTH_SHORT).show();
-//    }
+    public void playerCountSwitcher(View v) {
+        switch (v.getId()) {
+            case R.id.btn_one_player:
+                presenter.onBtnOnePlayerClick();
+                break;
+            case R.id.btn_two_players:
+                presenter.onBtnTwoPlayerClick();
+                break;
+            case R.id.btn_three_players:
+                presenter.onBtnThreePlayerClick();
+                break;
+            case R.id.btn_four_players:
+                presenter.onBtnFourPlayerClick();
+                break;
+        }
+        drawerLayout.closeDrawer(START);
+    }
 }

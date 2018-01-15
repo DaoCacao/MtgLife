@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/frame_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_top">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/txt_type"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_img">
+
+        <ImageView
+            android:id="@+id/img_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/pw_chandra" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_type">
+
+        <TextView
+            android:id="@+id/txt_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/txt_type"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_bottom">
+
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/counterLayout">
+
+                <ImageView
+                    android:id="@+id/btn_increase_life"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_life_plus" />
+
+                <TextView
+                    android:id="@+id/txt_life_total"
+                    style="@style/counterTxtStyle"
+                    android:text="20" />
+
+                <ImageView
+                    android:id="@+id/btn_decrease_life"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_life_minus" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/counterLayout">
+
+                <ImageView
+                    android:id="@+id/btn_increase_poison"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_poison_plus" />
+
+                <TextView
+                    android:id="@+id/txt_poison_total"
+                    style="@style/counterTxtStyle"
+                    android:text="0" />
+
+                <ImageView
+                    android:id="@+id/btn_decrease_poison"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_poison_minus" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/counterLayout">
+
+                <ImageView
+                    android:id="@+id/btn_increase_energy"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_energy_plus" />
+
+                <TextView
+                    android:id="@+id/txt_energy_total"
+                    style="@style/counterTxtStyle"
+                    android:text="0" />
+
+                <ImageView
+                    android:id="@+id/btn_decrease_energy"
+                    style="@style/counterBtnStyle"
+                    android:src="@drawable/picker_energy_minus" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

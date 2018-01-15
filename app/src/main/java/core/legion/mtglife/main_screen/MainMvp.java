@@ -27,7 +27,13 @@ public interface MainMvp {
 
     interface Presenter extends OnPlayerChangeListener {
         void onViewInitialized();
+        void onViewResume();
         void onViewStopped();
+
+        void onBtnOnePlayerClick();
+        void onBtnTwoPlayerClick();
+        void onBtnThreePlayerClick();
+        void onBtnFourPlayerClick();
 
         void onResetClick();
         void onRollDiceClick();

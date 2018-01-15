@@ -1,19 +1,19 @@
 package core.legion.mtglife.pojo;
 
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class Player {
 
     private String name;
     private String type;
-    private Bitmap background;
+    private Drawable background;
 
     private int lifeCounters;
     private int poisonCounters;
     private int energyCounters;
 
-    public Player(String name, String type, Bitmap background) {
+    public Player(String name, String type, Drawable background) {
         this.name = name;
         this.type = type;
         this.background = background;
@@ -23,30 +23,41 @@ public class Player {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getType() {
         return type;
+    }
+    public Drawable getBackground() {
+        return background;
+    }
+    public int getLifeCounters() {
+        return lifeCounters;
+    }
+    public int getPoisonCounters() {
+        return poisonCounters;
+    }
+    public int getEnergyCounters() {
+        return energyCounters;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     public void setType(String type) {
         this.type = type;
     }
-
-    public Bitmap getBackground() {
-        return background;
-    }
-    public void setBackground(Bitmap background) {
+    public void setBackground(Drawable background) {
         this.background = background;
-    }
-
-    public int getLifeCounters() {
-        return lifeCounters;
     }
     public void setLifeCounters(int lifeCounters) {
         this.lifeCounters = lifeCounters;
     }
+    public void setPoisonCounters(int poisonCounters) {
+        this.poisonCounters = poisonCounters;
+    }
+    public void setEnergyCounters(int energyCounters) {
+        this.energyCounters = energyCounters;
+    }
+
     public void increaseLifeCount() {
         lifeCounters++;
     }
@@ -54,12 +65,6 @@ public class Player {
         lifeCounters--;
     }
 
-    public int getPoisonCounters() {
-        return poisonCounters;
-    }
-    public void setPoisonCounters(int poisonCounters) {
-        this.poisonCounters = poisonCounters;
-    }
     public void increasePoisonCount() {
         poisonCounters++;
     }
@@ -67,12 +72,6 @@ public class Player {
         poisonCounters--;
     }
 
-    public int getEnergyCounters() {
-        return energyCounters;
-    }
-    public void setEnergyCounters(int energyCounters) {
-        this.energyCounters = energyCounters;
-    }
     public void increaseEnergyCount() {
         energyCounters++;
     }

@@ -34,7 +34,7 @@ public class MainModule {
 
     @Provides
     PlayerAdapter adapter(MainMvp.Presenter presenter, Database database) {
-        return new PlayerAdapter(presenter, database);
+        return new PlayerAdapter(presenter, database.getPlayers());
     }
 
     @Provides
@@ -44,7 +44,6 @@ public class MainModule {
         intent.setData(Uri.parse(context.getString(R.string.link_play_market)));
         return intent;
     }
-
     @Provides
     @Named(IntentsHelper.TO_PLAYER_SCREEN)
     Intent playerIntent(Context context) {

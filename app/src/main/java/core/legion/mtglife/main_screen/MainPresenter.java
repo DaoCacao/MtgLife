@@ -35,7 +35,6 @@ public class MainPresenter implements MainMvp.Presenter {
 
     private void initPlayers() {
         view.setPlayers(database.getPlayers());
-        view.notifyAdapter();
     }
 
     @Override
@@ -45,8 +44,37 @@ public class MainPresenter implements MainMvp.Presenter {
     }
 
     @Override
+    public void onViewResume() {
+        view.notifyAdapter();
+    }
+
+    @Override
     public void onViewStopped() {
         database.savePlayers();
+    }
+
+    @Override
+    public void onBtnOnePlayerClick() {
+        database.changePlayersCount(1);
+        view.notifyAdapter();
+    }
+
+    @Override
+    public void onBtnTwoPlayerClick() {
+        database.changePlayersCount(2);
+        view.notifyAdapter();
+    }
+
+    @Override
+    public void onBtnThreePlayerClick() {
+        database.changePlayersCount(3);
+        view.notifyAdapter();
+    }
+
+    @Override
+    public void onBtnFourPlayerClick() {
+        database.changePlayersCount(4);
+        view.notifyAdapter();
     }
 
     @Override
@@ -94,12 +122,9 @@ public class MainPresenter implements MainMvp.Presenter {
     }
 
     @Override
-    public void onNameClick() {
+    public void onNameClick(int pos) {
+        database.setCurrentPos(pos);
         view.navigateToPlayerScreen();
-    }
-
-    @Override
-    public void onTotalClick() {
     }
 
     @Override
